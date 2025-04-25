@@ -1,8 +1,8 @@
-import { View, Text, TextInput  } from 'react-native';
+// InputText.js
+import { View, TextInput } from 'react-native';
+import styles from './styles';
 
-import styles from './styles'
-
-export default function InputText({ placeholder, keyboardType, maxLength }) {
+export default function InputText({ placeholder, keyboardType, maxLength, value, onChangeText }) {
     return (
         <View style={styles.container}>
             <TextInput
@@ -10,8 +10,9 @@ export default function InputText({ placeholder, keyboardType, maxLength }) {
                 placeholder={placeholder}
                 keyboardType={keyboardType}
                 maxLength={maxLength}
+                value={value}
+                onChangeText={onChangeText}
             />
         </View>
     );
 }
-
