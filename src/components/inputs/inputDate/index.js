@@ -4,6 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import styles from './styles.js';
+import colors from '../../../constants/colors.js';
 
 export default function InputDatePicker({ iconName, placeholder }) {
     const [date, setDate] = useState(new Date());
@@ -25,7 +26,7 @@ export default function InputDatePicker({ iconName, placeholder }) {
 
     return (
         <View style={styles.containerBtn}>
-            <Ionicons name={iconName} size={24} color="#000000" style={styles.icon} />
+            <Ionicons name={iconName} size={24} color={colors.blackColor} style={styles.icon} />
             <Pressable style={styles.input} onPress={() => setShowPicker(true)}>
                 <Text style={styles.buttonText}>{selectedDate || placeholder}</Text>
             </Pressable>
@@ -36,7 +37,7 @@ export default function InputDatePicker({ iconName, placeholder }) {
                     display="spinner"
                     onChange={onChange}
                     themeVariant='light'
-                    textColor="#000"
+                    textColor={colors.blackColor}
                 />
             )}
         </View>

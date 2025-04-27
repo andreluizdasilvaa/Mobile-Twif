@@ -1,4 +1,6 @@
 import { StyleSheet } from "react-native"
+import colors from "../../constants/colors"
+import fonts from '../../constants/fonts'
 
 const styles = StyleSheet.create({
     container: {
@@ -31,7 +33,7 @@ const styles = StyleSheet.create({
     forgotPassword: {
       textAlign: 'right',
       flexDirection: 'row',
-      color: '#025648',
+      color: colors.secondaryColor,
       fontWeight: '600',
     },
     linkHook: {
@@ -41,7 +43,10 @@ const styles = StyleSheet.create({
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center'
-    }
+    },
+    textInputSubmit: {
+      fontFamily: fonts.Gilroy_Extrabold
+    },
 })
 
 export default styles

@@ -1,39 +1,47 @@
 import { useEffect, useState } from 'react';
-import { View, SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, TouchableOpacity } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 import { Image } from 'expo-image';
 
+import { searchUserInfo } from '../../services/userService';
 import Logo from '../Logo';
 import styles from './styles';
+import appConfig from '../../config/appConfig';
 
 export default function HeaderFeed() {
 
-    // const [userData, setUserData] = useState({});
+    const [userNick, setUserNick] = useState(null);
 
-    // useEffect(async () => {
-    //     try {   
-    //         // é necessario enviar o token para retornar as suas informações.
-    //         const resp = await fetch('http://localhost:3000/user/me')
-    //         const data = resp.json();
-    //         setUserData(data);
-    //         console.log(data);
-    //     } catch (error) {
-    //         console.error('Erro ao carregar os dado do usuario: ', error);
-    //     }
-    // }, [])
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await searchUserInfo();
+                setUserNick(data);
+            } catch (error) {
+                console.error('Erro ao carregar os dados do usuário:', error);
+            }
+        };
+        
+        fetchData(); 
+    }, []);
 
     return (
-        <View style={styles.container}>
-            <View style={styles.content}>
-                <Entypo name="menu" size={30} color="black" />
+        <SafeAreaView>
+            <View style={styles.container}>
+                <View style={styles.content}>
+                    <Entypo name="menu" size={30} color="black" />
 
-                <Logo width={130} height={70} />
+                    <TouchableOpacity>
+                        <Logo width={130} height={70} />
+                    </TouchableOpacity>
 
-                <Image 
-                    source={'https://cdn-icons-png.flaticon.com/512/1503/1503151.png'}
-                    style={styles.image}
-                />
+                    <Image
+                        source={userNick?.usernick ? `${appConfig.URL_API}/image/${userNick.usernick}` : null}
+                        style={styles.image}
+                    />
+                </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 }

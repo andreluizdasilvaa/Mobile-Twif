@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import colors from '../../../constants/colors';
 
 const styles = StyleSheet.create({
     button: {
@@ -6,7 +7,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '100%',
         height: 45,
-        backgroundColor: '#7EC543',
+        backgroundColor: colors.primaryColor,
         borderRadius: 10,
     },
     textBtn: {

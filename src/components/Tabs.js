@@ -1,10 +1,9 @@
-// src/routes/Tabs.js
-
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Feed from '../pages/feed';
-import Notifications from '../pages/notifications'; // ainda vai criar essa página
-import Ionicons from '@expo/vector-icons/Ionicons'; // se estiver usando Expo
+import Notifications from '../pages/notifications'; 
+import Ionicons from '@expo/vector-icons/Ionicons'; 
+import colors from '../constants/colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,7 +23,7 @@ export default function Tabs() {
 
                     return <Ionicons name={iconName} size={size} color={color} />;
                 },
-                tabBarActiveTintColor: '#7ec543',
+                tabBarActiveTintColor: colors.primaryColor,
                 tabBarInactiveTintColor: 'gray',
             })}
         >
@@ -33,5 +32,3 @@ export default function Tabs() {
         </Tab.Navigator>
     );
 }
-
-// <Ionicons name="notifications" size={24} color="black" />

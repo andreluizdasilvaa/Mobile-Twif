@@ -1,37 +1,61 @@
+import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, Pressable } from 'react-native';
+import Toast from 'react-native-toast-message';
+
 import styles from './styles';
 
-import Toast from 'react-native-toast-message';
-import InputText from '../../components/Input_text';
+import { getItem } from '../../services/storageService';
+import { loginRequest } from '../../services/authService';
+
+import InputText from '../../components/inputs/Input_text';
 import Logo from '../../components/Logo';
-import StandardButton from '../../components/buttonSubmit';
-import { useState } from 'react';
+import StandardButton from '../../components/inputs/buttonSubmit';
+import Loader from '../../components/loader';
 
 export default function Login({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
-    function submitForm() {
+    async function submitForm() {
         if (loading) return;
         setLoading(true);
-        console.log('Email: ', email);
-        console.log('Senha: ', password);
 
-        // simula um tempo de envio
-        setTimeout(() => {
-            setLoading(false);
+        await new Promise(resolve => setTimeout(resolve, 3000)); // simulando atraso do servidor - 3s
+        try {
+            const data = await loginRequest(email, password);
+
             Toast.show({
-                type: 'success', // 'success' | 'error' | 'info'
+                type: 'success',
                 text1: 'Login feito com sucesso!',
-                text2: 'Seja bem-vindo(a) ao app 👋',
-                position: 'top', // ou 'bottom'
+                text2: 'Seja bem-vindo(a) a TWIF',
+                position: 'top',
             });
 
-            // navigation.navigate('Home');
-        }, 2000);
+            navigation.navigate('Home');
+        } catch (error) {
+            Toast.show({
+                type: 'error',
+                text1: 'Erro ao fazer login',
+                text2: error.message || 'Tente novamente!',
+                position: 'top',
+            });
+        } finally {
+            setLoading(false);
+        }
     }
+
+    useEffect(() => {
+        async function checkToken() {
+            const token = await getItem('your-session-token');
+            if (token) {
+                navigation.navigate('Home'); 
+            }
+        }
+    
+        checkToken();
+    }, [navigation]);
 
     return (
         <View style={styles.container}>
@@ -41,7 +65,7 @@ export default function Login({ navigation }) {
                 </View>
 
                 <View style={styles.containerInputForm}>
-                    <Text>Seu e-mail:</Text>
+                    <Text>E-mail:</Text>
                     <InputText
                         placeholder="meninodasilva@ALUNO.IFSP.EDU.BR"
                         keyboardType="email-address"
@@ -52,7 +76,7 @@ export default function Login({ navigation }) {
                 </View>
 
                 <View style={styles.containerInputForm}>
-                    <Text style={styles.descTextInp}>Sua senha:</Text>
+                    <Text style={styles.descTextInp}>Senha:</Text>
                     <InputText
                         placeholder="********"
                         keyboardType="default"
@@ -68,7 +92,9 @@ export default function Login({ navigation }) {
 
                 <View style={styles.containerInputSubmit}>
                     <StandardButton onPress={submitForm} disabled={loading}>
-                        {loading ? 'Enviando...' : 'ENTRAR'}
+                        <Text style={styles.textInputSubmit}>
+                            {loading ? <Loader size={24} color="#fff" /> : 'ENTRAR'}
+                        </Text>
                     </StandardButton>
 
                     <Text style={[styles.forgotPassword, { textAlign: 'center' }]}>

@@ -1,9 +1,11 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 
 import Logo from '../../components/Logo';
-import InputTextIcon from '../../components/Input_text-with-icon';
-import InputDatePicker from '../../components/inputDate';
-import StandardButton from '../../components/buttonSubmit';
+import InputTextIcon from '../../components/inputs/Input_text-with-icon';
+import InputDatePicker from '../../components/inputs/inputDate';
+import StandardButton from '../../components/inputs/buttonSubmit';
+
+import styles from './styles';
 
 export default function Register({ navigation }) {
     return (
@@ -60,27 +62,3 @@ export default function Register({ navigation }) {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        width: '100%',
-        height: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    containerForm: {
-        width: '90%',
-        gap: 24,
-    },
-    containerInputForm: {
-        flexDirection: 'column',
-        gap: 12,
-    },
-    textBottomBtnSubmit: {
-        textAlign: 'center',
-        color: '#025648',
-    },
-    linkHook: {
-        textDecorationLine: 'underline',
-    },
-});

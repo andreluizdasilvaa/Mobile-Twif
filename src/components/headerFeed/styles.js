@@ -1,4 +1,5 @@
-import { StyleSheet } from "react-native";;
+import { StyleSheet } from "react-native";
+import Colors from "../../constants/colors";
 
 
 const styles = StyleSheet.create({
@@ -6,7 +7,7 @@ const styles = StyleSheet.create({
         top: 1,
         flexDirection: 'row',
         width: '100%',
-        backgroundColor: '#fff',
+        backgroundColor: Colors.whiteColor,
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 2,
@@ -18,11 +19,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     image: {
-        borderRadius: '50%',
+        borderRadius: 25,
         width: 50,
         height: 50,
-        borderColor: '#000',
-        borderWidth: 2
+        borderColor: Colors.blackColor,
+        borderWidth: 1
     }
 })
 

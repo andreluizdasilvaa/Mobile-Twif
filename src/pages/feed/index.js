@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, RefreshControl } from 'react-native';
 import styles from './styles';
 
 import HeaderFeed from '../../components/headerFeed';
@@ -8,22 +8,41 @@ import ModalInputPost from '../../components/modalInputPost';
 import Post from '../../components/post';
 
 import appConfig from '../../config/appConfig';
+import { getPost } from '../../services/postService';
 
 export default function Feed({ navigation }) {
     const [posts, setPosts] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
 
-    // Api para teste
-    useEffect(() => {
+    const fetchPosts = async () => {
         try {
-            fetch(`${appConfig.URL_API}/feed/posts`)
-                .then(r => r.json())
-                .then(resp => {
-                    setPosts(resp);
-                });
+            const data = await getPost();
+            if (!data) {
+                return;
+            }
+            setPosts(data);
         } catch (error) {
-            console.log(error);
+            Toast.show({
+                type: 'error',
+                text1: 'Erro ao carregar posts',
+                text2: error.message || 'Tente novamente!',
+                position: 'top',
+            });
+            if (error.status === 401) {
+                navigation.replace('Home');
+            }
         }
-    }, []);
+    };
+
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await fetchPosts();
+        setRefreshing(false);
+    };
+
+    useEffect(() => {
+        fetchPosts();
+    }, [navigation]);
 
     return (
         <>
@@ -33,7 +52,7 @@ export default function Feed({ navigation }) {
                 data={posts}
                 renderItem={({ item: post }) => (
                     <Post
-                        picture={post.user.profilePicture}
+                        userNick={post.user.usernick}
                         nameUser={post.user.nome}
                         description={post.content}
                         quantLike={post.likes.length}
@@ -41,6 +60,7 @@ export default function Feed({ navigation }) {
                     />
                 )}
                 keyExtractor={post => post.id}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             />
             <ModalInputPost />
             <StatusBar style="auto" />

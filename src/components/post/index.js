@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { Image } from 'expo-image';
 
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
+import colors from '../../constants/colors';
 import styles from './styles';
 
-import profilePictures from '../../config/profilePictures';
+import appConfig from '../../config/appConfig';
 
-export default function Post({ picture, nameUser, description, quantLike, quantComment }) {
+function PostComponent({ userNick, nameUser, description, quantLike, quantComment }) {
     const [liked, setLiked] = useState(false);
     const [quantLikes, setQuantLikes] = useState(quantLike);
 
@@ -25,10 +26,19 @@ export default function Post({ picture, nameUser, description, quantLike, quantC
         <View style={styles.container}>
             <View style={styles.header}>
                 <Image
-                    source={profilePictures[picture] || profilePictures['defaultphoto.png']}
+                    source={{ uri: `${appConfig.URL_API}/image/${userNick}` }}
                     style={styles.imageUser}
+                    contentFit="cover"
+                    transition={100}
                 />
-                <Text style={styles.nameUser}>{nameUser}</Text>
+                <View>
+                    <Text numberOfLines={1} ellipsizeMode="tail" style={styles.nameUser}>
+                        {nameUser}
+                    </Text>
+                    <Text numberOfLines={1} ellipsizeMode="tail" style={styles.userNick}>
+                        @{userNick}
+                    </Text>
+                </View>
             </View>
 
             <View style={styles.content}>
@@ -41,7 +51,7 @@ export default function Post({ picture, nameUser, description, quantLike, quantC
                     <AntDesign
                         name={liked ? 'heart' : 'hearto'}
                         size={18}
-                        color={liked ? 'green' : 'black'}
+                        color={liked ? colors.primaryColor : colors.blackColor}
                     />
                 </Pressable>
 
@@ -53,3 +63,6 @@ export default function Post({ picture, nameUser, description, quantLike, quantC
         </View>
     );
 }
+
+const Post = memo(PostComponent);
+export default Post;

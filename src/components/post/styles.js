@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
+import colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
     container: {
         width: '90%',
         margin: 'auto',
         minHeight: 180,
-        backgroundColor: '#fff',
+        backgroundColor: colors.whiteColor,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -25,9 +26,13 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     nameUser: {
-        fontWeight: 'medium',
+        fontWeight: '500', // 'medium' não é aceito direto, melhor usar numérico
         fontSize: 16,
-    },
+      },
+      userNick: {
+        fontSize: 12,
+        color: 'gray',
+      },
     content: {
         marginVertical: 10,
     },

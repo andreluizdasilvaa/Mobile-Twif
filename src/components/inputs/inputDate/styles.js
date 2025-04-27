@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import colors from "../../../constants/colors";
 
 const styles = StyleSheet.create({
     containerBtn: {
@@ -6,7 +7,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 6,
         borderRadius: 8,
-        borderColor: '#000000',
+        borderColor: colors.blackColor,
         borderWidth: 2,
         paddingHorizontal: 6,
         maxHeight: 40,
