@@ -17,12 +17,60 @@ export default function Login({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState({
+        email: '',
+        password: '',
+    });
+
+    const validateForm = () => {
+        let isValid = true;
+        const newErrors = {
+            email: '',
+            password: '',
+        };
+
+        // Validação do email
+        if (!email) {
+            newErrors.email = 'O email é obrigatório';
+            isValid = false;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            newErrors.email = 'Digite um email válido';
+            isValid = false;
+        } else if (!email.toLowerCase().endsWith('@aluno.ifsp.edu.br') && 
+                   !email.toLowerCase().endsWith('@ifsp.edu.br')) {
+            newErrors.email = 'Use seu email institucional ...@aluno.ifsp.edu.br';
+            isValid = false;
+        }
+
+        // Validação da senha
+        if (!password) {
+            newErrors.password = 'A senha é obrigatória';
+            isValid = false;
+        } else if (password.length < 8) {
+            newErrors.password = 'A senha deve ter no mínimo 8 caracteres';
+            isValid = false;
+        }
+
+        setErrors(newErrors);
+        return isValid;
+    };
 
     async function submitForm() {
         if (loading) return;
+
+        // Valida o formulário antes de prosseguir
+        if (!validateForm()) {
+            Toast.show({
+                type: 'error',
+                text1: 'Erro de validação',
+                text2: 'Por favor, corrija os erros no formulário',
+                position: 'top',
+            });
+            return;
+        }
+
         setLoading(true);
 
-        await new Promise(resolve => setTimeout(resolve, 3000)); // simulando atraso do servidor - 3s
         try {
             const data = await loginRequest(email, password);
 
@@ -33,7 +81,7 @@ export default function Login({ navigation }) {
                 position: 'top',
             });
 
-            navigation.navigate('Home');
+            navigation.replace('Home');
         } catch (error) {
             Toast.show({
                 type: 'error',
@@ -46,17 +94,7 @@ export default function Login({ navigation }) {
         }
     }
 
-    useEffect(() => {
-        async function checkToken() {
-            const token = await getItem('your-session-token');
-            if (token) {
-                navigation.navigate('Home'); 
-            }
-        }
-    
-        checkToken();
-    }, [navigation]);
-
+    // Modifique o retorno do componente para incluir as mensagens de erro:
     return (
         <View style={styles.container}>
             <View style={styles.containerForm}>
@@ -71,8 +109,15 @@ export default function Login({ navigation }) {
                         keyboardType="email-address"
                         maxLength={70}
                         value={email}
-                        onChangeText={setEmail}
+                        onChangeText={text => {
+                            setEmail(text);
+                            // Limpa o erro quando o usuário começa a digitar
+                            if (errors.email) {
+                                setErrors(prev => ({ ...prev, email: '' }));
+                            }
+                        }}
                     />
+                    {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
                 </View>
 
                 <View style={styles.containerInputForm}>
@@ -82,8 +127,18 @@ export default function Login({ navigation }) {
                         keyboardType="default"
                         maxLength={50}
                         value={password}
-                        onChangeText={setPassword}
+                        onChangeText={text => {
+                            setPassword(text);
+                            // Limpa o erro quando o usuário começa a digitar
+                            if (errors.password) {
+                                setErrors(prev => ({ ...prev, password: '' }));
+                            }
+                        }}
+                        secureTextEntry={true}
                     />
+                    {errors.password ? (
+                        <Text style={styles.errorText}>{errors.password}</Text>
+                    ) : null}
 
                     <Pressable>
                         <Text style={styles.forgotPassword}>Esqueceu a senha?</Text>
@@ -99,7 +154,7 @@ export default function Login({ navigation }) {
 
                     <Text style={[styles.forgotPassword, { textAlign: 'center' }]}>
                         Ainda não possui uma conta?
-                        <Pressable onPress={() => navigation.navigate('Register')}>
+                        <Pressable onPress={() => navigation.replace('Register')}>
                             <Text style={styles.linkHook}>Cadastre-se!</Text>
                         </Pressable>
                     </Text>

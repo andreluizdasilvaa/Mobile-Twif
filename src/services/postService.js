@@ -5,10 +5,7 @@ export const getPost = async () => {
         const { data } = await api.get('/feed/posts')
         return data;
     } catch (error) {
-        if (error.status === 401) {
-            throw error; // Repassando o erro com status 401
-        }
-        throw new Error('Erro ao buscar posts: ' + error.message);
+        throw error;
     }
 }
 

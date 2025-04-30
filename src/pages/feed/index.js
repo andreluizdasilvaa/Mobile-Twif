@@ -1,25 +1,23 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, FlatList, RefreshControl } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
 import styles from './styles';
 
 import HeaderFeed from '../../components/headerFeed';
 import ModalInputPost from '../../components/modalInputPost';
 import Post from '../../components/post';
 
-import appConfig from '../../config/appConfig';
 import { getPost } from '../../services/postService';
 
 export default function Feed({ navigation }) {
     const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
 
     const fetchPosts = async () => {
         try {
+            setLoading(true);
             const data = await getPost();
-            if (!data) {
-                return;
-            }
             setPosts(data);
         } catch (error) {
             Toast.show({
@@ -31,6 +29,8 @@ export default function Feed({ navigation }) {
             if (error.status === 401) {
                 navigation.replace('Home');
             }
+        } finally {
+            setLoading(false);
         }
     };
 

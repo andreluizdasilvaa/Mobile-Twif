@@ -47,6 +47,10 @@ const styles = StyleSheet.create({
     textInputSubmit: {
       fontFamily: fonts.Gilroy_Extrabold
     },
+    errorText: {
+      color: colors.redColor,
+      fontSize: 12
+    }
 })
 
 export default styles

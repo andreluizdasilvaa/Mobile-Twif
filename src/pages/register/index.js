@@ -52,7 +52,7 @@ export default function Register({ navigation }) {
                         <StandardButton>CADASTRAR</StandardButton>
                         <Text style={styles.textBottomBtnSubmit}>
                             Já faz parte da turma?
-                            <Pressable onPress={() => navigation.navigate('Login')}>
+                            <Pressable onPress={() => navigation.replace('Login')}>
                                 <Text style={styles.linkHook}>Faça seu Login.</Text>
                             </Pressable>
                         </Text>

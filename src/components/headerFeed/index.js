@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, TouchableOpacity } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -9,7 +9,8 @@ import Logo from '../Logo';
 import styles from './styles';
 import appConfig from '../../config/appConfig';
 
-export default function HeaderFeed() {
+function HeaderFeed() {
+    console.log('renderizado! - Header')
 
     const [userNick, setUserNick] = useState(null);
 
@@ -45,3 +46,6 @@ export default function HeaderFeed() {
         </SafeAreaView>
     );
 }
+
+const headerFeed = memo(HeaderFeed)
+export default headerFeed;
