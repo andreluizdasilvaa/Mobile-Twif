@@ -8,18 +8,20 @@ import colors from '../../constants/colors';
 import styles from './styles';
 
 import appConfig from '../../config/appConfig';
+import { likePost } from '../../services/postService';
 
-function PostComponent({ userNick, nameUser, description, quantLike, quantComment }) {
-    const [liked, setLiked] = useState(false);
+function PostComponent({ postId, userNick, nameUser, description, quantLike, quantComment, likedByCurrentUser }) {
+    const [liked, setLiked] = useState(likedByCurrentUser);
     const [quantLikes, setQuantLikes] = useState(quantLike);
 
-    const handleLike = () => {
+    const handleLike = async () => {
         if (liked) {
             setQuantLikes(quantLikes - 1);
         } else {
             setQuantLikes(quantLikes + 1);
         }
-        setLiked(!liked);
+        await likePost(postId);
+        setLiked(!liked); 
     };
 
     return (

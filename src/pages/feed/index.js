@@ -60,6 +60,8 @@ export default function Feed({ navigation }) {
                             description={item.content}
                             quantLike={item.likes.length}
                             quantComment={item.comments.length}
+                            postId={item.id}
+                            likedByCurrentUser={item.likedByCurrentUser}
                         />
                     )
                 )}
