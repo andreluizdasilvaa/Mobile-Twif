@@ -6,8 +6,10 @@ import styles from './styles';
 import HeaderFeed from '../../components/headerFeed';
 import ModalInputPost from '../../components/modalInputPost';
 import Post from '../../components/post';
+import DrawerBurguer from '../../components/drawerBurguer';
 
 import { getPost } from '../../services/postService';
+import SkeletonPost from '../../components/SkeletonPost';
 
 export default function Feed({ navigation }) {
     const [posts, setPosts] = useState([]);
@@ -17,6 +19,7 @@ export default function Feed({ navigation }) {
     const fetchPosts = async () => {
         try {
             setLoading(true);
+            await new Promise(resolve => setTimeout(resolve, 2000)); // simulando o tempo de resp do server
             const data = await getPost();
             setPosts(data);
         } catch (error) {
@@ -26,9 +29,6 @@ export default function Feed({ navigation }) {
                 text2: error.message || 'Tente novamente!',
                 position: 'top',
             });
-            if (error.status === 401) {
-                navigation.replace('Home');
-            }
         } finally {
             setLoading(false);
         }
@@ -45,25 +45,30 @@ export default function Feed({ navigation }) {
     }, [navigation]);
 
     return (
-        <>
+        <DrawerBurguer navigation={navigation}>
             <HeaderFeed />
             <FlatList
                 style={styles.containerPosts}
-                data={posts}
-                renderItem={({ item: post }) => (
-                    <Post
-                        userNick={post.user.usernick}
-                        nameUser={post.user.nome}
-                        description={post.content}
-                        quantLike={post.likes.length}
-                        quantComment={post.comments.length}
-                    />
+                data={loading ? [1, 2, 3, 4] : posts}
+                renderItem={({ item }) => (
+                    loading ? (
+                        <SkeletonPost />
+                    ) : (
+                        <Post
+                            userNick={item.user.usernick}
+                            nameUser={item.user.nome}
+                            description={item.content}
+                            quantLike={item.likes.length}
+                            quantComment={item.comments.length}
+                        />
+                    )
                 )}
-                keyExtractor={post => post.id}
+                keyExtractor={item => loading ? item.toString() : item.id}
+                removeClippedSubviews={true}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             />
             <ModalInputPost />
             <StatusBar style="auto" />
-        </>
+        </DrawerBurguer>
     );
 }

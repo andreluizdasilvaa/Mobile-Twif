@@ -5,7 +5,6 @@ import Toast from 'react-native-toast-message';
 
 import styles from './styles';
 
-import { getItem } from '../../services/storageService';
 import { loginRequest } from '../../services/authService';
 
 import InputText from '../../components/inputs/Input_text';

@@ -10,9 +10,15 @@ export default function AuthLoading({ navigation }) {
         const checkAuth = async () => {
             const result = await verifySessiom();
             if (result.authenticated) {
-                navigation.replace('Home');
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Home' }],
+                });
             } else {
-                navigation.replace('Login');
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Login' }],
+                });
             }
         };
 

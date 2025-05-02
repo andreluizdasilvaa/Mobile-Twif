@@ -1,44 +1,34 @@
-import { useEffect, useState, memo } from 'react';
+import { memo } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Pressable } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 import { Image } from 'expo-image';
 
-import { searchUserInfo } from '../../services/userService';
+import { useUserStore } from '../../stores/userStore';
 import Logo from '../Logo';
 import styles from './styles';
 import appConfig from '../../config/appConfig';
+import { useDrawerStore } from '../../stores/DrawerStore';
 
 function HeaderFeed() {
-    console.log('renderizado! - Header')
-
-    const [userNick, setUserNick] = useState(null);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await searchUserInfo();
-                setUserNick(data);
-            } catch (error) {
-                console.error('Erro ao carregar os dados do usuário:', error);
-            }
-        };
-        
-        fetchData(); 
-    }, []);
+    const { userNick } = useUserStore()
+    const open = useDrawerStore((state) => state.open);
 
     return (
         <SafeAreaView>
             <View style={styles.container}>
                 <View style={styles.content}>
-                    <Entypo name="menu" size={30} color="black" />
+                    <Pressable onPress={open}>
+                        <Entypo name="menu" size={30} color="black" />
+                    </Pressable>
+                    
 
                     <TouchableOpacity>
                         <Logo width={130} height={70} />
                     </TouchableOpacity>
 
                     <Image
-                        source={userNick?.usernick ? `${appConfig.URL_API}/image/${userNick.usernick}` : null}
+                        source={`${appConfig.URL_API}/image/${userNick}`}
                         style={styles.image}
                     />
                 </View>

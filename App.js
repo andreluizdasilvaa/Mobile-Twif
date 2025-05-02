@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Routes from './src/routes';
 import { navigationRef } from './src/services/navigationService';
 import Toast from 'react-native-toast-message';
+import 'react-native-gesture-handler';
 
 export default function App() {
     const [fontsLoaded] = useFonts({
