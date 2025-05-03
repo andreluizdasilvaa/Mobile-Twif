@@ -1,6 +1,6 @@
 # TWIF - Conectando a Comunidade IFSP Caraguatatuba
 
-![Logo TWIF](./src/assets/imgs/logo.png)
+![Logo TWIF](./src/assets/imgs/logo-white.png)
 
 ## 🌊 A rede social feita por alunos para alunos
 
