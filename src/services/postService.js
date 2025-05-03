@@ -10,7 +10,17 @@ export const getPost = async () => {
 }
 
 export const createPost = async (postData) => {
-    // ...
+    try {
+        const response = await api.post('/feed/create/post', {
+            conteudo: postData
+        });
+        return {
+            data: response.data,
+            status: response.status
+        };
+    } catch (error) {
+        throw error;
+    }
 };
 
 export const likePost = async (postId) => {

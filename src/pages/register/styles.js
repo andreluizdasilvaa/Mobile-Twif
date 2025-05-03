@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import colors from "../../constants/colors";
 
 const styles = StyleSheet.create({
     container: {
@@ -17,10 +18,12 @@ const styles = StyleSheet.create({
     },
     textBottomBtnSubmit: {
         textAlign: 'center',
-        color: '#025648',
+        color: colors.secondaryColor,
     },
     linkHook: {
         textDecorationLine: 'underline',
+        color: colors.secondaryColor,
+        fontWeight: 'bold',
     },
 });
 

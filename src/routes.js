@@ -1,8 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Login from './pages/login/index';
-import Register from './pages/register/index';
+import Login from './pages/login';
+import Register from './pages/register';
 import Tabs from './components/Tabs';
 import AuthLoading from './pages/authLoading';
 

@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.2,
         shadowRadius: 1.41,
-        elevation: 2,
+        elevation: 4,
         marginVertical: 16,
         padding: 18,
         borderRadius: 24,

@@ -36,7 +36,7 @@ api.interceptors.response.use(
                 position: 'top',
             });
 
-            navigate('Login');
+            navigate('Login', { reset: true });
             
             throw { status: 401, message: 'Sessão expirada' };
         }

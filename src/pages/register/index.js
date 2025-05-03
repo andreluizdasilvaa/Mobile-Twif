@@ -51,10 +51,14 @@ export default function Register({ navigation }) {
                     <View>
                         <StandardButton>CADASTRAR</StandardButton>
                         <Text style={styles.textBottomBtnSubmit}>
-                            Já faz parte da turma?
-                            <Pressable onPress={() => navigation.replace('Login')}>
-                                <Text style={styles.linkHook}>Faça seu Login.</Text>
-                            </Pressable>
+                            Já faz parte da turma? 
+                            <Text 
+                                style={styles.linkHook}
+                                onPress={() => navigation.replace('Login')}
+                            >
+                                Faça seu Login.
+                            </Text>
+                            
                         </Text>
                     </View>
                 </View>

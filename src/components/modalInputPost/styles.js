@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         right: Platform.OS === 'web' ? 30 : 20,  // Position on the right for web
         left: Platform.OS === 'android' ? 300 : null,  // Position on the left for Android
 
-        zIndex: 1000,
+        zIndex: 2,
     },
 });
 

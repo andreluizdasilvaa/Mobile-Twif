@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { FlatList, RefreshControl } from 'react-native';
+import { StatusBar, FlatList, RefreshControl } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Toast from 'react-native-toast-message';
 import styles from './styles';
 
 import HeaderFeed from '../../components/headerFeed';
 import ModalInputPost from '../../components/modalInputPost';
 import Post from '../../components/post';
 import DrawerBurguer from '../../components/drawerBurguer';
+import SkeletonPost from '../../components/SkeletonPost';
+import SheetFormPost from '../../components/sheetFormPost';
 
 import { getPost } from '../../services/postService';
-import SkeletonPost from '../../components/SkeletonPost';
 
 export default function Feed({ navigation }) {
     const [posts, setPosts] = useState([]);
@@ -19,7 +22,6 @@ export default function Feed({ navigation }) {
     const fetchPosts = async () => {
         try {
             setLoading(true);
-            await new Promise(resolve => setTimeout(resolve, 2000)); // simulando o tempo de resp do server
             const data = await getPost();
             setPosts(data);
         } catch (error) {
@@ -45,32 +47,39 @@ export default function Feed({ navigation }) {
     }, [navigation]);
 
     return (
-        <DrawerBurguer navigation={navigation}>
-            <HeaderFeed />
-            <FlatList
-                style={styles.containerPosts}
-                data={loading ? [1, 2, 3, 4] : posts}
-                renderItem={({ item }) => (
-                    loading ? (
-                        <SkeletonPost />
-                    ) : (
-                        <Post
-                            userNick={item.user.usernick}
-                            nameUser={item.user.nome}
-                            description={item.content}
-                            quantLike={item.likes.length}
-                            quantComment={item.comments.length}
-                            postId={item.id}
-                            likedByCurrentUser={item.likedByCurrentUser}
-                        />
-                    )
-                )}
-                keyExtractor={item => loading ? item.toString() : item.id}
-                removeClippedSubviews={true}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-            />
-            <ModalInputPost />
-            <StatusBar style="auto" />
-        </DrawerBurguer>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <StatusBar backgroundColor="white" barStyle="dark-content" />
+            <SafeAreaView style={{ flex: 1 }}>
+                <DrawerBurguer navigation={navigation}>
+                    <HeaderFeed />
+                    <FlatList
+                        style={styles.containerPosts}
+                        data={loading ? [1, 2, 3, 4] : posts}
+                        renderItem={({ item }) =>
+                            loading ? (
+                                <SkeletonPost />
+                            ) : (
+                                <Post
+                                    userNick={item.user.usernick}
+                                    nameUser={item.user.nome}
+                                    description={item.content}
+                                    quantLike={item.likes.length}
+                                    quantComment={item.comments.length}
+                                    postId={item.id}
+                                    likedByCurrentUser={item.likedByCurrentUser}
+                                />
+                            )
+                        }
+                        keyExtractor={item => (loading ? item.toString() : item.id?.toString())}
+                        removeClippedSubviews={true}
+                        refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                        }
+                    />
+                    <ModalInputPost />
+                    <SheetFormPost />
+                </DrawerBurguer>
+            </SafeAreaView>
+        </GestureHandlerRootView>
     );
 }

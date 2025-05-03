@@ -138,10 +138,6 @@ export default function Login({ navigation }) {
                     {errors.password ? (
                         <Text style={styles.errorText}>{errors.password}</Text>
                     ) : null}
-
-                    <Pressable>
-                        <Text style={styles.forgotPassword}>Esqueceu a senha?</Text>
-                    </Pressable>
                 </View>
 
                 <View style={styles.containerInputSubmit}>
@@ -151,11 +147,14 @@ export default function Login({ navigation }) {
                         </Text>
                     </StandardButton>
 
-                    <Text style={[styles.forgotPassword, { textAlign: 'center' }]}>
-                        Ainda não possui uma conta?
-                        <Pressable onPress={() => navigation.replace('Register')}>
-                            <Text style={styles.linkHook}>Cadastre-se!</Text>
-                        </Pressable>
+                    <Text style={[styles.forgotPassword, { textAlign: 'center'}]}>
+                        Ainda não possui uma conta?{' '}
+                        <Text 
+                            onPress={() => navigation.replace('Register')} 
+                            style={styles.linkHook}
+                        >
+                            Cadastre-se!
+                        </Text>
                     </Text>
                 </View>
             </View>

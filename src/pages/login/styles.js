@@ -37,7 +37,9 @@ const styles = StyleSheet.create({
       fontWeight: '600',
     },
     linkHook: {
-      textDecorationLine: 'underline'
+      textDecorationLine: 'underline',
+      color: colors.secondaryColor,
+      fontWeight: 'bold',
     },
     containerInputSubmit: {
       width: '100%',
