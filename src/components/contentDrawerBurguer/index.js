@@ -27,7 +27,7 @@ export default function ContentDrawerBurguer({ navigation }) {
 
         setIsLogginOut(true);
         try {
-            await deleteItem('your-session-token');
+            await deleteItem(appConfig.TOKEN_KEY);
             await clearUserData();
             await close();
             navigation.reset({

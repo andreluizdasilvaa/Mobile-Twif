@@ -6,7 +6,7 @@ import Toast from 'react-native-toast-message';
 
 const api = axios.create({
     baseURL: appConfig.URL_API,
-    timeout: 5000, // Se a requisição não receber uma resposta dentro desse tempo, ela será automaticamente cancelada e gerará um erro
+    timeout: appConfig.API_TIMEOUT, // Se a requisição não receber uma resposta dentro desse tempo, ela será automaticamente cancelada e gerará um erro
     headers: {
         'Content-Type': 'application/json'
     }

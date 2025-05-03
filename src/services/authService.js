@@ -11,7 +11,7 @@ export async function loginRequest(email, senha) {
         });
 
         if (data.token) {
-            await saveItem('your-session-token', data.token);
+            await saveItem(appConfig.TOKEN_KEY, data.token);
         }
 
         useUserStore.getState().setUserData({
@@ -29,7 +29,7 @@ export async function loginRequest(email, senha) {
 
 export async function verifySessiom() {
     try {
-        const token = await getItem('your-session-token'); // Use getItem ao invés de deleteItem
+        const token = await getItem(appConfig.TOKEN_KEY); // Use getItem ao invés de deleteItem
         if (!token) {
             return { authenticated: false };
         }
