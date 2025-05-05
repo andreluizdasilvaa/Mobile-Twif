@@ -5,3 +5,8 @@ export const searchUserInfo = async () => {
     const { data } = await api.get(`${appConfig.URL_API}/user/me`)
     return data;
 }
+
+export const notifications = async () => {
+    const { data } = await api.get(`${appConfig.URL_API}/user/notifications`)
+    return data;
+}
