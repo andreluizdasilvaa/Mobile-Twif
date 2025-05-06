@@ -1,16 +1,25 @@
-import React from "react"; 
-import { View, Text, StyleSheet } from "react-native";
+import React from "react";
+import { View, Text } from "react-native";
 import { Image } from 'expo-image';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import styles from "./styles";
 import appConfig from "../../config/appConfig";
 
 export default function Notification({ item }) {
+    // Verificação para array vazio
+    if (item.length === 0) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.emptyMessage}>Você não tem notificações no momento</Text>
+            </View>
+        );
+    };
+
     // Verificação de segurança para dados nulos ou indefinidos
     if (!item || !item.triggeredBy || !item.triggeredBy.usernick) {
         return (
             <View style={styles.container}>
-                <Text>Carregando notificação...</Text>
+                <Text style={styles.emptyMessage}>Carregando notificação...</Text>
             </View>
         );
     }

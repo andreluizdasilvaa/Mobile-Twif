@@ -1,6 +1,6 @@
 import api from '../config/api';
 import appConfig from '../config/appConfig';
-import { saveItem, getItem, deleteItem } from './storageService';
+import { saveItem, getItem } from './storageService';
 import { useUserStore } from '../stores/userStore';
 
 export async function loginRequest(email, senha) {
@@ -27,7 +27,7 @@ export async function loginRequest(email, senha) {
     }
 }
 
-export async function verifySessiom() {
+export async function verifySession() {
     try {
         const token = await getItem(appConfig.TOKEN_KEY); // Use getItem ao invés de deleteItem
         if (!token) {

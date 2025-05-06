@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import colors from "../../constants/colors";
 
 const styles = StyleSheet.create({
     container: {
@@ -7,22 +8,37 @@ const styles = StyleSheet.create({
     header: {
         width: '100%',
         marginHorizontal: 'auto',
-        borderBottomColor: '#808080',
+        borderBottomColor: colors.grayColor,
         borderBottomWidth: 0.5,
+        backgroundColor: colors.whiteColor,
+        marginBottom: 16,
     },
     headerContent: {
-        width: '90%',
-        maxWidth: 500,
-        marginHorizontal: 'auto',
-        paddingVertical: 25,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        width: '90%', 
+        maxWidth: 500, 
+        marginHorizontal: 'auto', 
+        paddingVertical: 25, 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'space-between', 
     },
     title: {
-        fontSize: 18,
+        fontSize: 18, 
+        fontWeight: 'bold', 
+    },
+    emptyText: {
+        fontSize: 16,
+        color: colors.grayColor,
         fontWeight: 'bold',
+        position: 'absolute',
+        top: '50%',         
+        left: 0,
+        right: 0,
+        textAlign: 'center',
+        transform: [
+            {translateY: -8}  
+        ]
     }
-})
+});
 
 export default styles;

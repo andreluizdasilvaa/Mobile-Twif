@@ -13,7 +13,6 @@ export default function Notifications() {
         try {
             const data = await notifications();
             setNotific(data);
-            console.log(data);
         } catch (error) {
             console.error(error);
         }
@@ -32,6 +31,10 @@ export default function Notifications() {
                 </View>
             </View>
 
+            
+            {notific.length === 0 ? (
+                <Text style={styles.emptyText}>Nenhuma notificação disponível</Text>
+        ) : (
             <FlatList 
                 data={notific}
                 renderItem={({ item }) => (
@@ -39,6 +42,7 @@ export default function Notifications() {
                 )}
                 keyExtractor={(item) => item.id.toString()}
             />
+        )}
         </SafeAreaView>
     )
 }

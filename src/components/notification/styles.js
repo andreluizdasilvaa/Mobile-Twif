@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import colors from "../../constants/colors";
 
 const styles = StyleSheet.create({
     container: {
@@ -9,11 +10,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 12,
         paddingVertical: 26,
+        paddingRight: 26,
         borderBottomWidth: 1,
-        backgroundColor: '#fff',
-        borderBottomColor: '#e0e0e0',
+        backgroundColor: colors.whiteColor,
+        borderBottomColor: colors.grayLightColor,
         alignItems: 'center',
-        marginVertical: 4,
         flexWrap: 'wrap'  
     },
     content: {
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
     },
     userNick: {
         fontSize: 14,
-        color: '#666',
+        color: colors.grayColor,
     },
     actionText: {
         fontSize: 14,
@@ -54,15 +55,21 @@ const styles = StyleSheet.create({
     previewText: {
         fontSize: 14,
         fontStyle: 'italic',
-        color: '#666',
+        color: colors.grayColor,
         marginTop: 4,
         flexWrap: 'wrap'      
     },
     timeText: {
         fontSize: 12,
-        color: '#888',
+        color: colors.grayColor,
         marginTop: 4,
     },
+    emptyMessage: {
+        fontSize: 16,
+        color: colors.grayColor,
+        textAlign: 'center',
+        padding: 20,
+    }
 });
 
 export default styles;

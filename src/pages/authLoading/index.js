@@ -2,20 +2,20 @@ import { useEffect } from 'react';
 import { View } from 'react-native';
 import Loader from '../../components/loader/index';
 import Logo from '../../components/Logo';
-import { verifySessiom } from '../../services/authService';
+import { verifySession } from '../../services/authService';
 
 export default function AuthLoading({ navigation }) {
     // Exemplo de uso na página
     useEffect(() => {
         const checkAuth = async () => {
-            const result = await verifySessiom();
+            const result = await verifySession();
             if (result.authenticated) {
-                navigation.reset({
+                return navigation.reset({
                     index: 0,
                     routes: [{ name: 'Home' }],
                 });
             } else {
-                navigation.reset({
+                return navigation.reset({
                     index: 0,
                     routes: [{ name: 'Login' }],
                 });
