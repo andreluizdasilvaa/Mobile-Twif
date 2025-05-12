@@ -2,25 +2,11 @@ import { View, Text, FlatList, SafeAreaView } from "react-native";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styles from './styles';
-import { useEffect, useState } from "react";
 import Notification from "../../components/notification";
-import { notifications } from "../../services/userService";
+import { useNotifyStore } from "../../stores/NotifyStore";
 
 export default function Notifications() {
-    const [notific, setNotific] = useState([]);
-
-    const fetchNotifications = async () => {
-        try {
-            const data = await notifications();
-            setNotific(data);
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    useEffect(() => {
-        fetchNotifications();
-    }, []);
+    const { notifications: storedNotifications } = useNotifyStore();
 
     return (
         <SafeAreaView style={styles.container}>
@@ -31,18 +17,17 @@ export default function Notifications() {
                 </View>
             </View>
 
-            
-            {notific.length === 0 ? (
+            {storedNotifications.length === 0 ? (
                 <Text style={styles.emptyText}>Nenhuma notificação disponível</Text>
-        ) : (
-            <FlatList 
-                data={notific}
-                renderItem={({ item }) => (
-                    <Notification item={item} />
-                )}
-                keyExtractor={(item) => item.id.toString()}
-            />
-        )}
+            ) : (
+                <FlatList 
+                    data={storedNotifications}
+                    renderItem={({ item }) => (
+                        <Notification item={item} />
+                    )}
+                    keyExtractor={(item) => item.id.toString()}
+                />
+            )}
         </SafeAreaView>
     )
 }

@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
         borderBottomColor: colors.grayColor,
         borderBottomWidth: 0.5,
         backgroundColor: colors.whiteColor,
-        marginBottom: 16,
     },
     headerContent: {
         width: '90%', 

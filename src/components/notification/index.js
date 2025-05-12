@@ -1,11 +1,19 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useCallback, useState } from "react";
+import { View, Text, Pressable } from "react-native";
 import { Image } from 'expo-image';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import styles from "./styles";
 import appConfig from "../../config/appConfig";
+import colors from "../../constants/colors";
+import { markNotification as markNotificationService } from "../../services/userService";
+import { useNotifyStore } from "../../stores/NotifyStore";
 
-export default function Notification({ item }) {
+function Notification({ item }) {
+    const [isViewed, setIsViewed] = useState(item.isViewed);
+    const [showMarkButton, setShowMarkButton] = useState(!item.isViewed);
+    const markNotificationAsRead = useNotifyStore(state => state.markNotificationAsRead);
+
+    console.log('renderizei')
     // Verificação para array vazio
     if (item.length === 0) {
         return (
@@ -15,14 +23,17 @@ export default function Notification({ item }) {
         );
     };
 
-    // Verificação de segurança para dados nulos ou indefinidos
-    if (!item || !item.triggeredBy || !item.triggeredBy.usernick) {
-        return (
-            <View style={styles.container}>
-                <Text style={styles.emptyMessage}>Carregando notificação...</Text>
-            </View>
-        );
-    }
+    // Marca notificação como vista
+    const markNotification = useCallback(async (notifyId) => {
+        try {
+            await markNotificationService(notifyId);
+            setIsViewed(true);
+            setShowMarkButton(false);
+            markNotificationAsRead(notifyId);
+        } catch (error) {
+            console.error('Erro ao marcar notificação:', error);
+        }
+    }, [markNotificationAsRead]);
     
     // Formatação da data
     const formatDate = (dateString) => {
@@ -45,7 +56,15 @@ export default function Notification({ item }) {
     };
     
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { 
+            backgroundColor: !isViewed ? `${colors.primaryColor}1D` : colors.whiteColor
+        }]}>
+
+            {!isViewed ? (
+                <View style={styles.container_dot}>
+                    <View style={styles.dotNotify} />
+                </View>
+            ) : null}
 
             <View style={styles.content}>
                 <Image 
@@ -76,9 +95,18 @@ export default function Notification({ item }) {
                         {formatDate(item.createdAt)}
                     </Text>
                 </View>
+
+                {showMarkButton && (
+                    <Pressable onPress={() => markNotification(item.id)}>
+                        <AntDesign name="eyeo" size={30} color="black" />
+                    </Pressable>
+                )}
+                
             </View>
-            
-            <AntDesign name="delete" size={24} color="black" />
         </View>
     );
 }
+
+export default React.memo(Notification, (prevProps, nextProps) => {
+    return JSON.stringify(prevProps.item) === JSON.stringify(nextProps.item);
+});

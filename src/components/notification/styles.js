@@ -6,21 +6,37 @@ const styles = StyleSheet.create({
         width: '100%',
         maxWidth: 700,
         marginHorizontal: 'auto',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        flexDirection: 'column',
         paddingHorizontal: 12,
         paddingVertical: 26,
         paddingRight: 26,
         borderBottomWidth: 1,
-        backgroundColor: colors.whiteColor,
         borderBottomColor: colors.grayLightColor,
-        alignItems: 'center',
-        flexWrap: 'wrap'  
     },
     content: {
         flexDirection: 'row',
         flex: 1,          
-        flexWrap: 'wrap' 
+        flexWrap: 'wrap',
+    },
+    container_dot: {
+        width: '100%',
+        paddingBottom: 6
+    },
+    dotNotify: {
+        width: 12,
+        height: 12,
+        backgroundColor: colors.primaryColor,
+        borderRadius: 6,
+        shadowColor: colors.primaryColor,
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 0.8,
+        shadowRadius: 8,
+        elevation: 8,
+        borderWidth: 1,
+        borderColor: colors.primaryColor,
     },
     image: {
         width: 50,
