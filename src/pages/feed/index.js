@@ -51,7 +51,7 @@ export default function Feed({ navigation }) {
             <StatusBar backgroundColor="white" barStyle="dark-content" />
             <SafeAreaView style={{ flex: 1 }}>
                 <DrawerBurguer navigation={navigation}>
-                    <HeaderFeed />
+                    <HeaderFeed navigation={navigation}/>
                     <FlatList
                         style={styles.containerPosts}
                         data={loading ? [1, 2, 3, 4] : posts}
@@ -67,6 +67,7 @@ export default function Feed({ navigation }) {
                                     quantComment={item.comments.length}
                                     postId={item.id}
                                     likedByCurrentUser={item.likedByCurrentUser}
+                                    navigation={navigation}
                                 />
                             )
                         }

@@ -9,9 +9,9 @@ import styles from './styles';
 import appConfig from '../../config/appConfig';
 import { useDrawerStore } from '../../stores/DrawerStore';
 
-function HeaderFeed() {
-    const { userNick } = useUserStore()
-    const open = useDrawerStore((state) => state.open);
+function HeaderFeed({ navigation }) {
+    const { userNick } = useUserStore();
+    const open = useDrawerStore(state => state.open);
 
     return (
         <View style={styles.container}>
@@ -19,20 +19,16 @@ function HeaderFeed() {
                 <Pressable onPress={open}>
                     <Entypo name="menu" size={30} color="black" />
                 </Pressable>
-                
-
-                <TouchableOpacity>
-                    <Logo width={130} height={70} />
-                </TouchableOpacity>
-
-                <Image
-                    source={`${appConfig.URL_API}/image/${userNick}`}
-                    style={styles.image}
-                />
+                <Logo width={130} height={70} />
+                <Pressable onPress={() => navigation.navigate('Perfil', {
+                    userNick: userNick
+                })}>
+                    <Image source={`${appConfig.URL_API}/image/${userNick}`} style={styles.image} />
+                </Pressable>
             </View>
         </View>
     );
 }
 
-const headerFeed = memo(HeaderFeed)
+const headerFeed = memo(HeaderFeed);
 export default headerFeed;

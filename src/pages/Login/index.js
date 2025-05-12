@@ -148,7 +148,7 @@ export default function Login({ navigation }) {
                     </StandardButton>
 
                     <Text style={[styles.forgotPassword, { textAlign: 'center'}]}>
-                        Ainda não possui uma conta?{' '}
+                        Ainda não possui uma conta?
                         <Text 
                             onPress={() => navigation.replace('Register')} 
                             style={styles.linkHook}

@@ -2,6 +2,7 @@ import React, { useEffect, useCallback, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from './pages/login';
 import Register from './pages/register';
+import Perfil from './pages/perfil';
 import Tabs from './components/Tabs';
 import AuthLoading from './pages/authLoading';
 import { notifications } from './services/userService';
@@ -15,15 +16,12 @@ export default function Routes() {
     const { setNotifications } = useNotifyStore();
 
     const fetchNotifications = useCallback(async () => {
-        try {
-            const token = await getItem(appConfig.TOKEN_KEY);
-            if (!token) return;
+        const token = await getItem(appConfig.TOKEN_KEY);
+        if (!token) return;
 
-            const data = await notifications();
-            setNotifications(data);
-        } catch (error) {
-            console.error('Erro ao buscar notificações:', error);
-        }
+        const data = await notifications();
+        setNotifications(data);
+        
     }, [setNotifications]);
 
     useEffect(() => {
@@ -36,6 +34,7 @@ export default function Routes() {
         <>
             <Stack.Navigator initialRouteName="authLoading">
                 <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+                <Stack.Screen name="Perfil" component={Perfil} options={{ headerShown: false }} />
                 <Stack.Screen
                     name="Register"
                     component={Register}

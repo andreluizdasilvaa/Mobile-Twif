@@ -10,7 +10,8 @@ import styles from './styles';
 import appConfig from '../../config/appConfig';
 import { likePost } from '../../services/postService';
 
-function PostComponent({ postId, userNick, nameUser, description, quantLike, quantComment, likedByCurrentUser }) {
+
+function PostComponent({ navigation, postId, userNick, nameUser, description, quantLike, quantComment, likedByCurrentUser }) {
     const [liked, setLiked] = useState(likedByCurrentUser);
     const [quantLikes, setQuantLikes] = useState(quantLike);
 
@@ -26,7 +27,9 @@ function PostComponent({ postId, userNick, nameUser, description, quantLike, qua
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
+            <Pressable style={styles.header} onPress={() => navigation.navigate('Perfil', {
+                userNick: userNick
+            })}>
                 <Image
                     source={{ uri: `${appConfig.URL_API}/image/${userNick}` }}
                     style={styles.imageUser}
@@ -41,7 +44,7 @@ function PostComponent({ postId, userNick, nameUser, description, quantLike, qua
                         @{userNick}
                     </Text>
                 </View>
-            </View>
+            </Pressable>
 
             <View style={styles.content}>
                 <Text>{description}</Text>
