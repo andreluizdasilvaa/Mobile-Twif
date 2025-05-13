@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
-import { View } from 'react-native';
-import Loader from '../../components/loader/index';
+import { View, ActivityIndicator } from 'react-native';
 import Logo from '../../components/Logo';
 import { verifySession } from '../../services/authService';
 
@@ -30,7 +29,7 @@ export default function AuthLoading({ navigation }) {
             <View style={{ position: 'absolute', opacity: 1 / 3 }}>
                 <Logo width={200} height={130} />
             </View>
-            <Loader color="#000000" size={32} />
+            <ActivityIndicator color="#000000" size={32} />
         </View>
     );
 }

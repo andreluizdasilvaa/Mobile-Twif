@@ -13,17 +13,23 @@ import SkeletonPost from '../../components/SkeletonPost';
 import SheetFormPost from '../../components/sheetFormPost';
 
 import { getPost } from '../../services/postService';
+import { usePostStore } from '../../stores/postStore';
 
 export default function Feed({ navigation }) {
-    const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
 
+    const { feedPosts, setFeedPosts, removePost } = usePostStore();
+
+    // Função para lidar com a deleção de posts
+    const handlePostDelete = postId => {
+        // A remoção do post da store global já é feita pelo componente Post
+    };
     const fetchPosts = async () => {
         try {
             setLoading(true);
             const data = await getPost();
-            setPosts(data);
+            setFeedPosts(data);
         } catch (error) {
             Toast.show({
                 type: 'error',
@@ -51,10 +57,10 @@ export default function Feed({ navigation }) {
             <StatusBar backgroundColor="white" barStyle="dark-content" />
             <SafeAreaView style={{ flex: 1 }}>
                 <DrawerBurguer navigation={navigation}>
-                    <HeaderFeed navigation={navigation}/>
+                    <HeaderFeed navigation={navigation} />
                     <FlatList
                         style={styles.containerPosts}
-                        data={loading ? [1, 2, 3, 4] : posts}
+                        data={loading ? [1, 2, 3, 4] : feedPosts}
                         renderItem={({ item }) =>
                             loading ? (
                                 <SkeletonPost />
@@ -68,6 +74,7 @@ export default function Feed({ navigation }) {
                                     postId={item.id}
                                     likedByCurrentUser={item.likedByCurrentUser}
                                     navigation={navigation}
+                                    onPostDelete={handlePostDelete}
                                 />
                             )
                         }

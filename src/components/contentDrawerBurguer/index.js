@@ -12,18 +12,18 @@ import { useUserStore } from '../../stores/userStore';
 import { useDrawerStore } from '../../stores/DrawerStore';
 import colors from '../../constants/colors';
 import styles from './styles';
+import DefaultModal from '../DefaultModal';
 
 import { deleteItem } from '../../services/storageService';
 
 export default function ContentDrawerBurguer({ navigation }) {
-
     const { userNick, name, isAdmin, clearUserData } = useUserStore();
     const { close } = useDrawerStore();
-    const [isLogginOut, setIsLogginOut] = useState(false)
+    const [isLogginOut, setIsLogginOut] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
     async function handleLogout() {
-        if(isLogginOut) return; // Evita múltiplos cliques
+        if (isLogginOut) return; // Evita múltiplos cliques
 
         setIsLogginOut(true);
         try {
@@ -32,7 +32,7 @@ export default function ContentDrawerBurguer({ navigation }) {
             await close();
             navigation.reset({
                 index: 0,
-                routes: [{ name: 'Login' }]
+                routes: [{ name: 'Login' }],
             });
         } catch (error) {
             // Em caso de erro, permite que o usuário tente novamente
@@ -63,13 +63,11 @@ export default function ContentDrawerBurguer({ navigation }) {
                         <Text style={styles.textButton}>RELATÓRIOS</Text>
                     </TouchableOpacity>
                 )}
-
                 <TouchableOpacity style={styles.buttonContainer}>
                     <Entypo name="light-bulb" size={30} color="black" />
                     <Text style={styles.textButton}>ATIVAR MODO ESCURO</Text>
                 </TouchableOpacity>
-
-                <TouchableOpacity 
+                <TouchableOpacity
                     style={styles.buttonContainer}
                     onPress={handleLogoutPress}
                     disabled={isLogginOut}
@@ -77,43 +75,13 @@ export default function ContentDrawerBurguer({ navigation }) {
                     <MaterialIcons name="logout" size={30} color={colors.redColor} />
                     <Text style={styles.textButton}>SAIR</Text>
                 </TouchableOpacity>
-                
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={showModal}
-                    onRequestClose={() => setShowModal(false)}
-                >
-                    <View style={styles.modalOverlay}>
-                        <View style={styles.modalContent}>
-                            <Text style={styles.modalTitle}>Confirmar Saída</Text>
-                            <Text style={styles.modalText}>
-                                Tem certeza que deseja sair da sua conta?
-                            </Text>
-
-                            <View style={styles.modalButtons}>
-                                <TouchableOpacity 
-                                    style={[styles.modalButton, styles.cancelButton]}
-                                    onPress={() => setShowModal(false)}
-                                >
-                                    <Text style={styles.modalButtonText}>Cancelar</Text>
-                                </TouchableOpacity>
-
-                                <TouchableOpacity 
-                                    style={[styles.modalButton, styles.confirmButton]}
-                                    onPress={() => {
-                                        setShowModal(false);
-                                        handleLogout();
-                                    }}
-                                >
-                                    <Text style={[styles.modalButtonText, styles.confirmButtonText]}>
-                                        Confirmar
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
+                <DefaultModal
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                    handleConfirm={handleLogout}
+                    title="Confirmar Saída"
+                    message="Tem certeza que deseja sair da sua conta?"
+                />
             </View>
         </SafeAreaView>
     );

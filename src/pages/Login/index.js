@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, Pressable } from 'react-native';
+import { Text, View, Pressable, ActivityIndicator } from 'react-native';
 import Toast from 'react-native-toast-message';
 
 import styles from './styles';
@@ -10,7 +10,6 @@ import { loginRequest } from '../../services/authService';
 import InputText from '../../components/inputs/Input_text';
 import Logo from '../../components/Logo';
 import StandardButton from '../../components/inputs/buttonSubmit';
-import Loader from '../../components/loader';
 
 export default function Login({ navigation }) {
     const [email, setEmail] = useState('');
@@ -143,7 +142,7 @@ export default function Login({ navigation }) {
                 <View style={styles.containerInputSubmit}>
                     <StandardButton onPress={submitForm} disabled={loading}>
                         <Text style={styles.textInputSubmit}>
-                            {loading ? <Loader size={24} color="#fff" /> : 'ENTRAR'}
+                            {loading ? <ActivityIndicator size={24} color="#fff" /> : 'ENTRAR'}
                         </Text>
                     </StandardButton>
 

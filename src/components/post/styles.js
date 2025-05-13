@@ -40,8 +40,21 @@ const styles = StyleSheet.create({
     footer: {
         marginTop: 15,
         flexDirection: 'row',
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between',
+    },
+    btnsFooter: {
+        flexDirection: 'row',
         gap: 20,
+    },
+    btnDeletePostFooter: {
+        backgroundColor: colors.redColor,
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 16
+    },
+    textBtnDelete: {
+        color: colors.whiteColor,
+        fontWeight: 'bold'
     },
     containerIcon: {
         flexDirection: 'row',

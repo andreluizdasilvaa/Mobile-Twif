@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
         maxWidth: 500,
         flexDirection: 'row',
         alignItems: 'flex-start',
+        // backgroundColor: '#f3f',
         paddingTop: 12,
         paddingHorizontal: 10,
         alignSelf: 'center',
@@ -66,6 +67,11 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         fontSize: 12,
     },
+    containerPosts: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 });
 
 export default styles;

@@ -17,3 +17,8 @@ export const markNotification = async (notifyId) => {
     })
     return data;
 }
+
+export const userByNick = async (userNick) => {
+    const { data } = await api.get(`${appConfig.URL_API}/user/perfil/${userNick}`)
+    return data;
+}
