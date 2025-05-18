@@ -8,16 +8,19 @@ import colors from '../../constants/colors';
 import styles from './styles';
 
 import { useUserStore } from '../../stores/userStore';
-import { usePostStore } from '../../stores/postStore';
 import appConfig from '../../config/appConfig';
-import { likePost } from '../../services/postService';
-import { deletePost as deletePostService } from '../../services/postService';
+import {
+    likePost,
+    deletePost as deletePostService,
+    deleteComment,
+} from '../../services/postService';
 import DefaultModal from '../DefaultModal';
 import Toast from 'react-native-toast-message';
 
 function PostComponent({
     navigation,
     postId,
+    commentId,
     userNick,
     nameUser,
     description,
@@ -26,45 +29,80 @@ function PostComponent({
     likedByCurrentUser,
     isUserProfile = false,
     onPostDelete, // prop para notificar o componente pai sobre a deleção
+    isComment = false,
+    isMainPost = false, // Indica se é o post principal na página de comentários
+    style = {},
 }) {
     const [liked, setLiked] = useState(likedByCurrentUser);
     const [quantLikes, setQuantLikes] = useState(quantLike);
     const [showModal, setShowModal] = useState(false);
-    const { userNick: currentUserNick } = useUserStore();
-    const { removePost } = usePostStore();
+    const [isLikeLoading, setIsLikeLoading] = useState(false); // Novo estado para controlar o carregamento da curtida
+    const { userNick: currentUserNick, isAdmin } = useUserStore();
 
     const handleLike = async () => {
-        if (liked) {
-            setQuantLikes(quantLikes - 1);
-        } else {
-            setQuantLikes(quantLikes + 1);
-        }
-        await likePost(postId);
-        setLiked(!liked);
-    };
+        // Se já estiver processando um like, não permitir outro clique
+        if (isLikeLoading) return;
 
-    async function deletePost() {
         try {
-            const data = await deletePostService(postId);
+            setIsLikeLoading(true);
+
+            // Armazena os valores atuais antes da chamada à API
+            const willBeLiked = !liked;
+            const newQuantLikes = willBeLiked ? quantLikes + 1 : quantLikes - 1;
+
+            // Chamada para o backend
+            await likePost(postId);
+
+            // Atualiza o estado somente após sucesso da operação
+            setLiked(willBeLiked);
+            setQuantLikes(newQuantLikes);
+        } catch (error) {
+            console.log('Erro ao curtir post:', error);
             Toast.show({
-                type: 'success',
-                text1: 'Sucesso',
-                text2: 'Post deletado com sucesso!',
+                type: 'error',
+                text1: 'Erro ao curtir',
+                text2: 'Não foi possível atualizar a curtida',
                 position: 'bottom',
             });
+        } finally {
+            setIsLikeLoading(false);
+        }
+    };
+    async function handleDeletePost() {
+        try {
+            if (isComment === false) {
+                await deletePostService(postId);
+                Toast.show({
+                    type: 'success',
+                    text1: 'Sucesso',
+                    text2: 'Post deletado com sucesso!',
+                    position: 'bottom',
+                });
 
-            // Remover o post da store global
-            removePost(postId);
+                // Notifica o componente pai que o post foi deletado (para atualizações locais)
+                if (onPostDelete) {
+                    onPostDelete(postId);
+                }
+            } else {
+                await deleteComment(postId, commentId);
 
-            // Notifica o componente pai que o post foi deletado (para atualizações locais)
-            if (onPostDelete) {
-                onPostDelete(postId);
+                Toast.show({
+                    type: 'success',
+                    text1: 'Sucesso',
+                    text2: 'Comentario deletado com sucesso!',
+                    position: 'bottom',
+                });
+
+                // Notifica o componente pai que o comentário foi deletado (para atualizações locais)
+                if (onPostDelete) {
+                    onPostDelete(commentId);
+                }
             }
         } catch (error) {
             console.log(error);
             Toast.show({
                 type: 'error',
-                text1: 'Erro ao deletar post',
+                text1: 'Erro ao deletar',
                 text2: error.message || 'Fale com o suporte!',
                 position: 'top',
             });
@@ -74,9 +112,8 @@ function PostComponent({
     function handleModal() {
         setShowModal(true);
     }
-
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, style]}>
             <Pressable
                 style={styles.header}
                 onPress={() =>
@@ -100,41 +137,67 @@ function PostComponent({
                     </Text>
                 </View>
             </Pressable>
-
             <View style={styles.content}>
                 <Text>{description}</Text>
             </View>
-
             <DefaultModal
+                title={
+                    isComment ? 'Deletar comentário' : isUserProfile ? 'Deletar post' : 'Deletar'
+                }
+                message={
+                    isComment
+                        ? 'Tem certeza que quer deletar esse comentario?'
+                        : 'Tem certeza que quer deletar esse post?'
+                }
                 showModal={showModal}
                 setShowModal={setShowModal}
-                handleConfirm={deletePost}
+                handleConfirm={handleDeletePost}
             />
-
             <View style={styles.footer}>
-                {isUserProfile == true && currentUserNick === userNick ? (
+                {/* Mostrar botão de deletar apenas se:
+                   - Estiver na tela de perfil OU for um comentário (mas não o post principal)
+                   - O post pertencer ao usuário atual OU o usuário for admin
+                */}
+                {(isUserProfile === true || (isComment === true && !isMainPost)) &&
+                (currentUserNick === userNick || isAdmin === true) ? (
                     <TouchableOpacity style={styles.btnDeletePostFooter} onPress={handleModal}>
-                        <Text style={styles.textBtnDelete}>Deletar</Text>
+                        <Text style={styles.textBtnDelete}>
+                            {isComment ? 'Deletar comentário' : 'Deletar post'}
+                        </Text>
                     </TouchableOpacity>
                 ) : (
                     <View />
                 )}
-
-                <View style={styles.btnsFooter}>
-                    <Pressable style={styles.containerIcon} onPress={handleLike}>
-                        <Text>{quantLikes}</Text>
-                        <AntDesign
-                            name={liked ? 'heart' : 'hearto'}
-                            size={18}
-                            color={liked ? colors.primaryColor : colors.blackColor}
-                        />
-                    </Pressable>
-
-                    <Pressable style={styles.containerIcon}>
-                        <Text>{quantComment}</Text>
-                        <Feather name="message-circle" size={18} color="black" />
-                    </Pressable>
-                </View>
+                {isComment === false ? (
+                    <View style={styles.btnsFooter}>
+                        <Pressable
+                            style={[styles.containerIcon, isLikeLoading && { opacity: 0.7 }]}
+                            onPress={handleLike}
+                            disabled={isLikeLoading}
+                        >
+                            <Text>{quantLikes}</Text>
+                            <AntDesign
+                                name={liked ? 'heart' : 'hearto'}
+                                size={18}
+                                color={liked ? colors.primaryColor : colors.blackColor}
+                            />
+                        </Pressable>
+                        <Pressable
+                            style={styles.containerIcon}
+                            onPress={() =>
+                                navigation.navigate('Comment', {
+                                    userNick,
+                                    nameUser,
+                                    description,
+                                    postId,
+                                })
+                            }
+                        >
+                            <Text>{quantComment}</Text>
+                            <Feather name="message-circle" size={18} color="black" />
+                        </Pressable>
+                    </View>
+                ) : null}
             </View>
         </View>
     );

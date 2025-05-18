@@ -9,19 +9,17 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 import appConfig from '../../config/appConfig';
 import { useUserStore } from '../../stores/userStore';
-import { useDrawerStore } from '../../stores/DrawerStore';
 import colors from '../../constants/colors';
 import styles from './styles';
 import DefaultModal from '../DefaultModal';
 
 import { deleteItem } from '../../services/storageService';
 
-export default function ContentDrawerBurguer({ navigation }) {
+export default function ContentDrawerBurguer({ navigation, closeDrawer }) {
     const { userNick, name, isAdmin, clearUserData } = useUserStore();
-    const { close } = useDrawerStore();
     const [isLogginOut, setIsLogginOut] = useState(false);
     const [showModal, setShowModal] = useState(false);
-
+    
     async function handleLogout() {
         if (isLogginOut) return; // Evita múltiplos cliques
 
@@ -29,7 +27,7 @@ export default function ContentDrawerBurguer({ navigation }) {
         try {
             await deleteItem(appConfig.TOKEN_KEY);
             await clearUserData();
-            await close();
+            closeDrawer();
             navigation.reset({
                 index: 0,
                 routes: [{ name: 'Login' }],

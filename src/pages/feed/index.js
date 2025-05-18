@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { StatusBar, FlatList, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
+import { useFocusEffect } from '@react-navigation/native';
 import styles from './styles';
 
 import HeaderFeed from '../../components/headerFeed';
@@ -13,17 +14,15 @@ import SkeletonPost from '../../components/SkeletonPost';
 import SheetFormPost from '../../components/sheetFormPost';
 
 import { getPost } from '../../services/postService';
-import { usePostStore } from '../../stores/postStore';
 
 export default function Feed({ navigation }) {
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
 
-    const { feedPosts, setFeedPosts, removePost } = usePostStore();
-
-    // Função para lidar com a deleção de posts
+    const [feedPosts, setFeedPosts] = useState([]); // Função para lidar com a deleção de posts
     const handlePostDelete = postId => {
-        // A remoção do post da store global já é feita pelo componente Post
+        // Atualizar o estado local removendo o post deletado
+        setFeedPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
     };
     const fetchPosts = async () => {
         try {
@@ -47,10 +46,25 @@ export default function Feed({ navigation }) {
         await fetchPosts();
         setRefreshing(false);
     };
-
     useEffect(() => {
         fetchPosts();
-    }, [navigation]);
+    }, []);
+
+    // Este efeito será disparado sempre que a tela receber foco (quando o usuário voltar para ela)
+    useFocusEffect(
+        useCallback(() => {
+            // Verificar se viemos da tela de perfil onde um post foi excluído
+            const shouldRefreshFeed = navigation
+                .getState()
+                .routes.find(route => route.name === 'Feed' && route.params?.shouldRefreshFeed);
+
+            if (shouldRefreshFeed) {
+                fetchPosts();
+                // Limpar o parâmetro para não recarregar novamente se o usuário focar a tela por outras razões
+                navigation.setParams({ shouldRefreshFeed: undefined });
+            }
+        }, [navigation]),
+    );
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>

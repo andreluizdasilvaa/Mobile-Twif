@@ -3,15 +3,13 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import styles from './styles';
 import colors from '../../constants/colors';
 
 // Importações de serviços e stores
 import { userByNick } from '../../services/userService';
-import { useUserStore } from '../../stores/userStore';
-import { usePostStore } from '../../stores/postStore';
 import Post from '../../components/post';
 import ScreenLoader from '../../components/ScreenLoader';
 import appConfig from '../../config/appConfig';
@@ -19,11 +17,12 @@ import { navigationRef } from '../../services/navigationService';
 
 export default function Perfil() {
     const route = useRoute();
+    const navigation = useNavigation();
     const { userNick } = route.params;
 
     const [infoUser, setInfoUser] = useState({});
     const [loading, setLoading] = useState(false);
-    const { userNick: currentUserNick } = useUserStore();
+    const [hasDeletedPost, setHasDeletedPost] = useState(false);
 
     useEffect(() => {
         async function searchUserInfo() {
@@ -39,15 +38,16 @@ export default function Perfil() {
         }
 
         searchUserInfo();
-    }, [userNick]);
-
-    // Função para lidar com a deleção de posts
+    }, [userNick]); // Função para lidar com a deleção de posts
     const handlePostDelete = postId => {
         // Atualizar o estado local removendo o post deletado
         setInfoUser(prevInfo => ({
             ...prevInfo,
             posts: prevInfo.posts.filter(post => post.id !== postId),
         }));
+
+        // Marcar que um post foi deletado para que o feed saiba que precisa atualizar
+        setHasDeletedPost(true);
     };
 
     if (loading) {
@@ -58,7 +58,19 @@ export default function Perfil() {
         <SafeAreaView>
             <ScrollView>
                 <View style={styles.header}>
-                    <TouchableOpacity onPress={() => navigationRef.current?.goBack()}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            // Ao voltar, se um post foi excluído, vamos informar ao Feed para recarregar
+                            if (hasDeletedPost) {
+                                navigation.reset({
+                                    index: 0,
+                                    routes: [{ name: 'Home', params: { shouldRefreshFeed: true } }],
+                                });
+                            } else {
+                                navigationRef.current?.goBack();
+                            }
+                        }}
+                    >
                         <MaterialIcons name="arrow-back" size={30} color={colors.primaryColor} />
                     </TouchableOpacity>
                 </View>
@@ -105,7 +117,7 @@ export default function Perfil() {
                                 quantComment={item.comments.length}
                                 postId={item.id}
                                 likedByCurrentUser={item.likedByCurrentUser}
-                                isUserProfile={currentUserNick === userNick ? true : false}
+                                isUserProfile={true}
                                 onPostDelete={handlePostDelete}
                                 navigation={navigationRef.current}
                             />

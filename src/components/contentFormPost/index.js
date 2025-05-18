@@ -5,7 +5,6 @@ import { Image } from 'expo-image';
 
 import { useSheetFormStore } from '../../stores/SheetFormStore';
 import { useUserStore } from '../../stores/userStore';
-import { usePostStore } from '../../stores/postStore';
 import { createPost } from '../../services/postService';
 import appConfig from '../../config/appConfig';
 import styles from './styles';
@@ -13,7 +12,6 @@ import styles from './styles';
 export default function ContentFormPost() {
     const { close } = useSheetFormStore();
     const { userNick, name } = useUserStore();
-    const { addNewPost } = usePostStore();
     const [loading, setLoading] = useState(false);
     const [text, setText] = useState('');
 
@@ -57,9 +55,6 @@ export default function ContentFormPost() {
                     likedByCurrentUser: false,
                     createdAt: new Date().toISOString(),
                 };
-
-                // Adiciona o novo post ao estado global
-                addNewPost(newPost);
 
                 setText(''); // Limpa o campo após sucesso
                 Toast.show({

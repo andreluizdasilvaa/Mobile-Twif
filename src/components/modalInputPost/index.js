@@ -5,11 +5,13 @@ import { useSheetFormStore } from '../../stores/SheetFormStore';
 import styles from './styles';
 
 export default function ModalInputPost() {
-    const { toggle } = useSheetFormStore();
+    const { open, isVisible } = useSheetFormStore();
 
     return (
-        <TouchableOpacity style={styles.container} onPress={toggle}>
+        !isVisible ? (
+        <TouchableOpacity style={styles.container} onPress={open}>
             <Feather name="edit" size={28} color="black" />
         </TouchableOpacity>
+    ) : null
     );
 }

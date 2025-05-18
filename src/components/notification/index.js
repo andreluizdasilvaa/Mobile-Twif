@@ -13,7 +13,6 @@ function Notification({ item }) {
     const [showMarkButton, setShowMarkButton] = useState(!item.isViewed);
     const markNotificationAsRead = useNotifyStore(state => state.markNotificationAsRead);
 
-    console.log('renderizei')
     // Verificação para array vazio
     if (item.length === 0) {
         return (

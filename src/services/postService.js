@@ -36,7 +36,7 @@ export const deletePost = async postId => {
     try {
         const { data } = await api.delete('/feed/delete/post', {
             // Quando o metodo é 'DELETE', É assim que passa dados no body
-            data: {
+            data: { 
                 idPost: postId,
             },
         });
@@ -45,3 +45,21 @@ export const deletePost = async postId => {
         throw error;
     }
 };
+
+export const getCommentById = async postId => {
+    try {
+        const { data } = await api.get(`/comments/posts/${postId}/comments`)
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const deleteComment = async (postId, commentId) => {
+    try {
+        const { data } = await api.delete(`/comments/posts/${postId}/comments/${commentId}`);
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}

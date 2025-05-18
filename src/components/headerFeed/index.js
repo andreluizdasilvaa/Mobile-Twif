@@ -7,22 +7,24 @@ import { useUserStore } from '../../stores/userStore';
 import Logo from '../Logo';
 import styles from './styles';
 import appConfig from '../../config/appConfig';
-import { useDrawerStore } from '../../stores/DrawerStore';
 
-function HeaderFeed({ navigation }) {
+function HeaderFeed({ navigation, openDrawer }) {
     const { userNick } = useUserStore();
-    const open = useDrawerStore(state => state.open);
 
     return (
         <View style={styles.container}>
             <View style={styles.content}>
-                <Pressable onPress={open}>
+                <Pressable onPress={openDrawer}>
                     <Entypo name="menu" size={30} color="black" />
                 </Pressable>
                 <Logo width={130} height={70} />
-                <Pressable onPress={() => navigation.navigate('Perfil', {
-                    userNick: userNick
-                })}>
+                <Pressable
+                    onPress={() =>
+                        navigation.navigate('Perfil', {
+                            userNick: userNick,
+                        })
+                    }
+                >
                     <Image source={`${appConfig.URL_API}/image/${userNick}`} style={styles.image} />
                 </Pressable>
             </View>
