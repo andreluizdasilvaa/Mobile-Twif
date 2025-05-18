@@ -8,7 +8,7 @@ import Logo from '../Logo';
 import styles from './styles';
 import appConfig from '../../config/appConfig';
 
-function HeaderFeed({ navigation, openDrawer }) {
+function HeaderFeed({ navigation, openDrawer, onLogoPress }) {
     const { userNick } = useUserStore();
 
     return (
@@ -17,7 +17,9 @@ function HeaderFeed({ navigation, openDrawer }) {
                 <Pressable onPress={openDrawer}>
                     <Entypo name="menu" size={30} color="black" />
                 </Pressable>
-                <Logo width={130} height={70} />
+                <Pressable onPress={onLogoPress}>
+                    <Logo width={130} height={70} />
+                </Pressable>
                 <Pressable
                     onPress={() =>
                         navigation.navigate('Perfil', {

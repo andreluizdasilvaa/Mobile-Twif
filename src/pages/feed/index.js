@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { StatusBar, FlatList, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -18,11 +18,21 @@ import { getPost } from '../../services/postService';
 export default function Feed({ navigation }) {
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+    const flatListRef = useRef(null);
 
-    const [feedPosts, setFeedPosts] = useState([]); // Função para lidar com a deleção de posts
+    const [feedPosts, setFeedPosts] = useState([]);
+
+    // Função para lidar com a deleção de posts
     const handlePostDelete = postId => {
         // Atualizar o estado local removendo o post deletado
         setFeedPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
+    };
+
+    // Função para rolar a lista para o topo
+    const scrollToTop = () => {
+        if (flatListRef.current) {
+            flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+        }
     };
     const fetchPosts = async () => {
         try {
@@ -71,8 +81,9 @@ export default function Feed({ navigation }) {
             <StatusBar backgroundColor="white" barStyle="dark-content" />
             <SafeAreaView style={{ flex: 1 }}>
                 <DrawerBurguer navigation={navigation}>
-                    <HeaderFeed navigation={navigation} />
+                    <HeaderFeed navigation={navigation} onLogoPress={scrollToTop} />
                     <FlatList
+                        ref={flatListRef}
                         style={styles.containerPosts}
                         data={loading ? [1, 2, 3, 4] : feedPosts}
                         renderItem={({ item }) =>

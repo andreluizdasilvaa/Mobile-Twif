@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
         width: '90%',
         maxWidth: 700,
         margin: 'auto',
-        paddingBottom: 20,
     },
     textComment: {
         color: colors.grayColor,
@@ -22,7 +21,6 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 50,
     },
     noCommentsText: {
         fontSize: 16,
@@ -30,7 +28,6 @@ const styles = StyleSheet.create({
     },
     containerComments: {
         flex: 1,
-        width: '100%',
     },
     commentPost: {
         transform: [{ scale: 0.95 }],

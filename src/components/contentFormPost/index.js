@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { Image } from 'expo-image';
@@ -9,7 +9,7 @@ import { createPost } from '../../services/postService';
 import appConfig from '../../config/appConfig';
 import styles from './styles';
 
-export default function ContentFormPost() {
+const ContentFormPost = forwardRef((props, inputRef) => {
     const { close } = useSheetFormStore();
     const { userNick, name } = useUserStore();
     const [loading, setLoading] = useState(false);
@@ -90,6 +90,7 @@ export default function ContentFormPost() {
 
             <View style={styles.inputWrapper}>
                 <TextInput
+                    ref={inputRef}
                     multiline
                     value={text}
                     onChangeText={handleTextChange}
@@ -101,4 +102,6 @@ export default function ContentFormPost() {
             </View>
         </View>
     );
-}
+});
+
+export default ContentFormPost;

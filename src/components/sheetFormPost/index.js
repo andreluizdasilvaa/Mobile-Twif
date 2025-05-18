@@ -7,6 +7,7 @@ import { useSheetFormStore } from '../../stores/SheetFormStore';
 export default function SheetFormPost() {
     const { isVisible, close } = useSheetFormStore();
     const bottomSheetRef = useRef(null);
+    const inputRef = useRef(null);
 
     const snapPoints = useMemo(() => ['30%', '50%'], []);
 
@@ -23,6 +24,9 @@ export default function SheetFormPost() {
     useEffect(() => {
         if (isVisible) {
             bottomSheetRef.current?.expand();
+            setTimeout(() => {
+                inputRef.current?.focus();
+            }, 200);
         } else {
             bottomSheetRef.current?.close();
         }
@@ -43,7 +47,7 @@ export default function SheetFormPost() {
                     enablePanDownToClose={true}
                 >
                     <BottomSheetView style={{ flex: 1 }}>
-                        <ContentFormPost />
+                        <ContentFormPost ref={inputRef} />
                     </BottomSheetView>
                 </BottomSheet>
             </KeyboardAvoidingView>
