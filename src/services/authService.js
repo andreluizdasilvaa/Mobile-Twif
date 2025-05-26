@@ -17,13 +17,12 @@ export async function loginRequest(email, senha) {
         useUserStore.getState().setUserData({
             userNick: data.user.usernick,
             name: data.user.nome,
-            isAdmin: data.isAdmin
+            isAdmin: data.isAdmin,
         });
 
         return data;
     } catch (error) {
-        const errorMessage = error.response?.data?.Erro || 'Erro ao fazer login';
-        throw new Error(errorMessage);
+        throw error;
     }
 }
 
@@ -39,7 +38,7 @@ export async function verifySession() {
         useUserStore.getState().setUserData({
             userNick: data.user.usernick,
             name: data.user.nome,
-            isAdmin: data.isAdmin
+            isAdmin: data.isAdmin,
         });
 
         return {
@@ -54,6 +53,4 @@ export async function verifySession() {
     }
 }
 
-export async function registerRequest() {
-    
-}
+export async function registerRequest() {}

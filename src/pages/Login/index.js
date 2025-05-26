@@ -71,7 +71,7 @@ export default function Login({ navigation }) {
 
         try {
             const data = await loginRequest(email, password);
-
+            
             Toast.show({
                 type: 'success',
                 text1: 'Login feito com sucesso!',
@@ -81,12 +81,21 @@ export default function Login({ navigation }) {
 
             navigation.replace('Home');
         } catch (error) {
-            Toast.show({
-                type: 'error',
-                text1: 'Erro ao fazer login',
-                text2: error.message || 'Tente novamente!',
-                position: 'top',
-            });
+            if(error.status === 401) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Credenciais Invalidas!',
+                    text2: 'Corrija os campos abaixo',
+                    position: 'top',
+                });
+            } else {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Erro ao fazer Login!',
+                    text2: 'Tente novamente mais tarde',
+                    position: 'top',
+                });
+            }
         } finally {
             setLoading(false);
         }
@@ -132,7 +141,6 @@ export default function Login({ navigation }) {
                                 setErrors(prev => ({ ...prev, password: '' }));
                             }
                         }}
-                        secureTextEntry={true}
                     />
                     {errors.password ? (
                         <Text style={styles.errorText}>{errors.password}</Text>

@@ -55,7 +55,12 @@ export default function ContentDrawerBurguer({ navigation, closeDrawer }) {
 
             <View style={styles.containerButtons}>
                 {isAdmin && (
-                    <TouchableOpacity style={styles.containerButtonsRelatorio}>
+                    <TouchableOpacity 
+                        style={styles.containerButtonsRelatorio}
+                        onPress={() => {
+                            navigation.navigate('Relatorio')
+                        }}
+                    >
                         <View style={styles.shadowView} />
                         <Ionicons name="newspaper-outline" size={30} color="black" />
                         <Text style={styles.textButton}>RELATÓRIOS</Text>
