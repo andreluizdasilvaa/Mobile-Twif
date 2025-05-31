@@ -6,14 +6,22 @@ import styles from './styles';
 import { StatusBar } from 'expo-status-bar';
 import Logo from '../Logo';
 import colors from '../../constants/colors';
+import { navigationRef } from '../../services/navigationService';
 
-export default function HeaderComment({ navigation, onLogoPress }) {
+export default function HeaderComment({ navigation, onLogoPress, hasInteraction }) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
                 <Pressable
                     onPress={() => {
-                        navigation.goBack();
+                        if (hasInteraction) {
+                                navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'Home', params: { shouldRefreshFeed: true } }],
+                            });
+                        } else {
+                            navigationRef.current?.goBack();
+                        }
                     }}
                 >
                     <MaterialIcons name="arrow-back" size={30} color={colors.primaryColor} />

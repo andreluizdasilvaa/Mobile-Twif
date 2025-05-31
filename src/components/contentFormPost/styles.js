@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: '90%',
+        height: '50%',
         margin: 'auto',
         flexDirection: 'column',
         backgroundColor: 'white',

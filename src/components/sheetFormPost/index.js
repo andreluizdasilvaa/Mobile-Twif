@@ -4,7 +4,7 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import ContentFormPost from '../contentFormPost';
 import { useSheetFormStore } from '../../stores/SheetFormStore';
 
-export default function SheetFormPost() {
+export default function SheetFormPost({ handleUpdatePost }) {
     const { isVisible, close } = useSheetFormStore();
     const bottomSheetRef = useRef(null);
     const inputRef = useRef(null);
@@ -47,7 +47,7 @@ export default function SheetFormPost() {
                     enablePanDownToClose={true}
                 >
                     <BottomSheetView style={{ flex: 1 }}>
-                        <ContentFormPost ref={inputRef} />
+                        <ContentFormPost handleUpdatePost={handleUpdatePost} ref={inputRef} />
                     </BottomSheetView>
                 </BottomSheet>
             </KeyboardAvoidingView>

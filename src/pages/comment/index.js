@@ -1,21 +1,37 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, SafeAreaView, FlatList, Pressable } from 'react-native';
+import {
+    View,
+    Text,
+    SafeAreaView,
+    FlatList,
+    Modal,
+    TouchableWithoutFeedback,
+    Keyboard,
+    Dimensions,
+} from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { getCommentById } from '../../services/postService';
 import HeaderComment from '../../components/headerComment';
 import Post from '../../components/post';
 import SkeletonPost from '../../components/SkeletonPost';
-import Logo from '../../components/Logo';
 import styles from './styles';
+import { StatusBar } from 'expo-status-bar';
+
+import ModalInputPost from '../../components/modalInputPost';
+import ContentFormPost from '../../components/contentFormPost';
 
 export default function Comment({ navigation }) {
     const route = useRoute();
     const { userNick, postId, nameUser, description } = route.params;
     const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [hasInteractionPost, setHasInteractionPost] = useState(false);
+    
     const flatListRef = useRef(null); // Função para remover um comentário da lista quando ele é deletado
     const handleCommentDelete = commentId => {
         setComments(prevComments => prevComments.filter(comment => comment.id !== commentId));
+        setHasInteractionPost(true);
     };
 
     // Função para rolar a lista para o topo
@@ -43,9 +59,20 @@ export default function Comment({ navigation }) {
 
         getComments();
     }, []);
+
+    function handleModal() {
+        setModalVisible(!modalVisible);
+    }
+
+    function handleUpdateComment(newComment) {
+        setComments(prevComments => [newComment, ...prevComments]);
+        setModalVisible(false);
+        setHasInteractionPost(true);
+    }
+
     return (
         <SafeAreaView style={styles.container}>
-            <HeaderComment navigation={navigation} onLogoPress={scrollToTop} />
+            <HeaderComment hasInteraction={hasInteractionPost} navigation={navigation} onLogoPress={scrollToTop} />
             <FlatList
                 ref={flatListRef}
                 style={styles.containerComments}
@@ -94,6 +121,33 @@ export default function Comment({ navigation }) {
                     </>
                 }
             />
+
+            <Modal
+                animationType="fade"
+                visible={modalVisible}
+                transparent={true}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+                    <View style={styles.modalBackground}>
+                        <TouchableWithoutFeedback onPress={() => {}}>
+                            <View style={styles.modalContent}>
+                                <ContentFormPost
+                                    isComment={true}
+                                    postId={postId}
+                                    setModalVisible={setModalVisible}
+                                    updateCommentList={handleUpdateComment}
+                                />
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>
+
+            <ModalInputPost isComment={true} callback={handleModal} />
+            <StatusBar backgroundColor={modalVisible ? 'rgba(0,0,0,0.5)' : '#ffffff'} />
         </SafeAreaView>
     );
 }

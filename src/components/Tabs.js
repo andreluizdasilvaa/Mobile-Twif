@@ -16,6 +16,7 @@ export default function Tabs() {
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 headerShown: false,
+                tabBarShowLabel: false, // Oculta os nomes das tabs
                 tabBarIcon: ({ color, size }) => {
                     let iconName;
 

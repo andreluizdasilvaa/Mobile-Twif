@@ -60,13 +60,17 @@ export default function Feed({ navigation }) {
         fetchPosts();
     }, []);
 
+    function handleUpdatePost(newPost) {
+        fetchPosts();
+    }
+
     // Este efeito será disparado sempre que a tela receber foco (quando o usuário voltar para ela)
     useFocusEffect(
         useCallback(() => {
             // Verificar se viemos da tela de perfil onde um post foi excluído
             const shouldRefreshFeed = navigation
                 .getState()
-                .routes.find(route => route.name === 'Feed' && route.params?.shouldRefreshFeed);
+                .routes.find(route => route.name === 'Home' && route.params?.shouldRefreshFeed);
 
             if (shouldRefreshFeed) {
                 fetchPosts();
@@ -110,7 +114,7 @@ export default function Feed({ navigation }) {
                         }
                     />
                     <ModalInputPost />
-                    <SheetFormPost />
+                    <SheetFormPost handleUpdatePost={handleUpdatePost}/>
                 </DrawerBurguer>
             </SafeAreaView>
         </GestureHandlerRootView>

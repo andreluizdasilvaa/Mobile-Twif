@@ -1,5 +1,6 @@
 import { StyleSheet, Platform } from 'react-native';
 import colors from '../../constants/colors';
+import { Dimensions } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
@@ -32,6 +33,19 @@ const styles = StyleSheet.create({
     commentPost: {
         transform: [{ scale: 0.95 }],
         minHeight: 140,
+    },
+    modalBackground: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    modalContent: {
+        height: Dimensions.get('window').height * 0.5,
+        width: '100%',
+        backgroundColor: '#fff',
+        overflow: 'hidden',
+        borderTopWidth: 0.5,
+        borderColor: '#000',
     },
 });
 

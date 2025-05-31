@@ -22,7 +22,7 @@ export default function Perfil() {
 
     const [infoUser, setInfoUser] = useState({});
     const [loading, setLoading] = useState(false);
-    const [hasDeletedPost, setHasDeletedPost] = useState(false);
+    const [hasInteractionPost, setHasInteractionPost] = useState(false);
 
     useEffect(() => {
         async function searchUserInfo() {
@@ -47,7 +47,7 @@ export default function Perfil() {
         }));
 
         // Marcar que um post foi deletado para que o feed saiba que precisa atualizar
-        setHasDeletedPost(true);
+        setHasInteractionPost(true);
     };
 
     if (loading) {
@@ -61,7 +61,7 @@ export default function Perfil() {
                     <TouchableOpacity
                         onPress={() => {
                             // Ao voltar, se um post foi excluído, vamos informar ao Feed para recarregar
-                            if (hasDeletedPost) {
+                            if (hasInteractionPost) {
                                 navigation.reset({
                                     index: 0,
                                     routes: [{ name: 'Home', params: { shouldRefreshFeed: true } }],

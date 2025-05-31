@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { StyleSheet, Dimensions, View } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { Drawer } from 'react-native-drawer-layout';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -16,10 +16,6 @@ export default function DrawerBurguer({ children, navigation }) {
 
     const closeDrawer = useCallback(() => {
         setIsOpen(false);
-    }, []);
-
-    const toggleDrawer = useCallback(() => {
-        setIsOpen(prevState => !prevState);
     }, []);
 
     // Adiciona os métodos do drawer ao primeiro filho (HeaderFeed)

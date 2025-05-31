@@ -63,3 +63,17 @@ export const deleteComment = async (postId, commentId) => {
         throw error;
     }
 }
+
+export const createComment = async (commentId, content) => {
+    try {
+        const response = await api.post(`comments/posts/${commentId}/comments`, {
+            content
+        })
+        return {
+            data: response.data,
+            status: response.status,
+        };
+    } catch (error) {
+        throw error;
+    }
+}
