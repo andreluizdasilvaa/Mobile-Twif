@@ -7,6 +7,7 @@ import Comment from './pages/comment';
 import Relatorio from './pages/relatorio';
 import Tabs from './components/Tabs';
 import AuthLoading from './pages/authLoading';
+import ChooseProfilePicture from './pages/chooseProfilePicture';
 import { notifications } from './services/userService';
 import { useNotifyStore } from './stores/NotifyStore';
 import { getItem } from './services/storageService';
@@ -38,6 +39,11 @@ export default function Routes() {
                 <Stack.Screen 
                     name="Login" 
                     component={Login} 
+                    options={{ headerShown: false }} 
+                />
+                <Stack.Screen 
+                    name="ChoosePicture" 
+                    component={ChooseProfilePicture} 
                     options={{ headerShown: false }} 
                 />
                 <Stack.Screen 

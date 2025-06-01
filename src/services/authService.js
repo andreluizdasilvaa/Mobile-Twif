@@ -53,4 +53,24 @@ export async function verifySession() {
     }
 }
 
-export async function registerRequest() {}
+export async function verifyUsernickValid(nickName) {
+    try {
+        const { data } = await api.post('/auth/validate-usernick', {
+            usernick: nickName
+        })
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function verifyEmailValid(email) {
+    try {
+        const { data } = await api.post('/auth/validate-email', {
+            email: email
+        })
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}

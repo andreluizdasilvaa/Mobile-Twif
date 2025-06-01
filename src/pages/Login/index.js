@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, Pressable, ActivityIndicator } from 'react-native';
 import Toast from 'react-native-toast-message';
-
 import styles from './styles';
-
 import { loginRequest } from '../../services/authService';
+import { validateEmail, validatePassword } from '../../utils/validation'
 
 import InputText from '../../components/inputs/Input_text';
 import Logo from '../../components/Logo';
@@ -21,36 +20,14 @@ export default function Login({ navigation }) {
     });
 
     const validateForm = () => {
-        let isValid = true;
+        const emailError = validateEmail(email);
+        const passwordError = validatePassword(password);
         const newErrors = {
-            email: '',
-            password: '',
+            email: emailError,
+            password: passwordError,
         };
-
-        // Validação do email
-        if (!email) {
-            newErrors.email = 'O email é obrigatório';
-            isValid = false;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            newErrors.email = 'Digite um email válido';
-            isValid = false;
-        } else if (!email.toLowerCase().endsWith('@aluno.ifsp.edu.br') && 
-                   !email.toLowerCase().endsWith('@ifsp.edu.br')) {
-            newErrors.email = 'Use seu email institucional ...@aluno.ifsp.edu.br';
-            isValid = false;
-        }
-
-        // Validação da senha
-        if (!password) {
-            newErrors.password = 'A senha é obrigatória';
-            isValid = false;
-        } else if (password.length < 8) {
-            newErrors.password = 'A senha deve ter no mínimo 8 caracteres';
-            isValid = false;
-        }
-
         setErrors(newErrors);
-        return isValid;
+        return !emailError && !passwordError;
     };
 
     async function submitForm() {
@@ -70,7 +47,7 @@ export default function Login({ navigation }) {
         setLoading(true);
 
         try {
-            const data = await loginRequest(email, password);
+            await loginRequest(email, password);
             
             Toast.show({
                 type: 'success',

@@ -12,6 +12,7 @@
     "@expo/metro-runtime": "~4.0.1",
     "@gorhom/bottom-sheet": "^5.1.2",
     "@react-native-community/datetimepicker": "8.2.0",
+    "@react-native-picker/picker": "2.9.0",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/drawer": "^7.3.9",
     "@react-navigation/stack": "^7.2.1",
@@ -30,10 +31,10 @@
     "react-native-gesture-handler": "~2.20.2",
     "react-native-reanimated": "~3.16.1",
     "react-native-screens": "~4.4.0",
+    "react-native-svg": "15.8.0",
     "react-native-toast-message": "^2.3.0",
     "react-native-web": "~0.19.13",
-    "zustand": "^5.0.3",
-    "react-native-svg": "15.8.0"
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

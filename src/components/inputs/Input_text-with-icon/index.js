@@ -4,7 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import styles from './styles'
 import colors from '../../../constants/colors';
 
-export default function InputTextIcon({ iconName, placeholder, keyboardType, maxLength, minLength }) {
+export default function InputTextIcon({ iconName, placeholder, keyboardType, maxLength, onChangeText }) {
     return (
         <View style={styles.containerBtn}>
             <Ionicons name={iconName} size={24} color={colors.blackColor} style={styles.icon} />
@@ -14,6 +14,7 @@ export default function InputTextIcon({ iconName, placeholder, keyboardType, max
                 keyboardType={keyboardType}
                 maxLength={maxLength}
                 minLength={8}
+                onChangeText={onChangeText}
             />
         </View>
     );

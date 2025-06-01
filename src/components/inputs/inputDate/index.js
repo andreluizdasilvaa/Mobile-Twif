@@ -6,21 +6,20 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import styles from './styles.js';
 import colors from '../../../constants/colors.js';
 
-export default function InputDatePicker({ iconName, placeholder }) {
-    const [date, setDate] = useState(new Date());
+export default function InputDatePicker({ iconName, placeholder, value, onChange }) {
     const [showPicker, setShowPicker] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(null);
+    // Garante que displayDate é sempre string
+    const displayDate = value || placeholder;
 
-    const onChange = (event, selectedDate) => {
+    const handleChange = (event, selectedDate) => {
         setShowPicker(false);
-        if (selectedDate) {
-            setDate(selectedDate);
-            const formattedDate = selectedDate.toLocaleDateString('pt-BR', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-            });
-            setSelectedDate(formattedDate);
+        if (selectedDate && onChange) {
+            // Retorna a data formatada como string para o pai
+            const d = new Date(selectedDate);
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            onChange(`${year}-${month}-${day}`);
         }
     };
 
@@ -28,15 +27,15 @@ export default function InputDatePicker({ iconName, placeholder }) {
         <View style={styles.containerBtn}>
             <Ionicons name={iconName} size={24} color={colors.blackColor} style={styles.icon} />
             <Pressable style={styles.input} onPress={() => setShowPicker(true)}>
-                <Text style={styles.buttonText}>{selectedDate || placeholder}</Text>
+                <Text style={styles.buttonText}>{displayDate}</Text>
             </Pressable>
             {showPicker && (
                 <DateTimePicker
-                    value={date}
+                    value={value ? new Date(value) : new Date()}
                     mode="date"
                     display="spinner"
-                    onChange={onChange}
-                    themeVariant='light'
+                    onChange={handleChange}
+                    themeVariant="light"
                     textColor={colors.blackColor}
                 />
             )}

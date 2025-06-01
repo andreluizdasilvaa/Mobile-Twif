@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import fonts from "../../constants/fonts";
 import colors from "../../constants/colors";
 
 const styles = StyleSheet.create({
@@ -8,13 +9,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    textTittle: {
+        fontWeight: 'bold',
+        fontSize: 18
+    },
     containerForm: {
         width: '90%',
-        gap: 24,
+        gap: 12,
     },
     containerInputForm: {
         flexDirection: 'column',
-        gap: 12,
     },
     textBottomBtnSubmit: {
         textAlign: 'center',
@@ -25,6 +29,22 @@ const styles = StyleSheet.create({
         color: colors.secondaryColor,
         fontWeight: 'bold',
     },
+    headerModal: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingVertical: 16
+    },
+    titleTextModal: {
+        fontSize: 30,
+        fontFamily: fonts.Gilroy_Extrabold,
+        marginBottom: 16,
+        textAlign: 'center'
+    },
+    errorText: {
+      color: colors.redColor,
+      fontSize: 12
+    }
 });
 
 export default styles;
