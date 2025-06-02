@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Pressable } from 'react-native';
 import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -10,6 +10,7 @@ import colors from '../../constants/colors';
 
 // Importações de serviços e stores
 import { userByNick } from '../../services/userService';
+import { useUserStore } from '../../stores/userStore'
 import Post from '../../components/post';
 import ScreenLoader from '../../components/ScreenLoader';
 import appConfig from '../../config/appConfig';
@@ -19,6 +20,7 @@ export default function Perfil() {
     const route = useRoute();
     const navigation = useNavigation();
     const { userNick } = route.params;
+    const { userNick: nickNameA } = useUserStore();
 
     const [infoUser, setInfoUser] = useState({});
     const [loading, setLoading] = useState(false);
@@ -39,6 +41,7 @@ export default function Perfil() {
 
         searchUserInfo();
     }, [userNick]); // Função para lidar com a deleção de posts
+
     const handlePostDelete = postId => {
         // Atualizar o estado local removendo o post deletado
         setInfoUser(prevInfo => ({
@@ -75,12 +78,26 @@ export default function Perfil() {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.containerInfo}>
-                    <Image
-                        source={{
-                            uri: `${appConfig.URL_API}/image/${userNick}`,
-                        }}
-                        style={styles.image}
-                    />
+                    <View>
+                        <Image
+                            source={{
+                                uri: `${appConfig.URL_API}/image/default/${infoUser.profilePicture}`,
+                            }}
+                            style={styles.image}
+                        />
+                        {userNick === nickNameA ? (
+                            <Pressable
+                                style={styles.containerInputProfile}
+                                onPress={() => navigation.navigate('ChoosePicture', {
+                                    isChangePicture: true,
+                                    nickname: userNick,
+                                })}
+                            >
+                                <MaterialIcons name="draw" size={20} color="black" />
+                            </Pressable>
+                        ) : null}
+                    </View>
+
                     <View style={styles.contentInfo}>
                         <Text style={[styles.textInfo, styles.nameUserText]}>{infoUser.nome}</Text>
                         <Text style={styles.textInfo}>@{userNick}</Text>

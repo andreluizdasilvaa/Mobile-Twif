@@ -28,6 +28,15 @@ const styles = StyleSheet.create({
         position: 'relative',
         bottom: 75,
     },
+    containerInputProfile: {
+        position: 'absolute', 
+        top: 55, 
+        right: 20, 
+        backgroundColor: 
+        colors.primaryColor, 
+        padding: 5, 
+        borderRadius: '50%'
+    },
     contentInfo: {
         flexShrink: 1,
         flexWrap: 'wrap',

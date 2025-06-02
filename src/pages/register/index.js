@@ -75,16 +75,19 @@ export default function Register({ navigation }) {
 
     // Handler do segundo passo (cadastro)
     async function handleRegister() {
+        if(loading) return;
+
         const safeNickname = form.nickname.toLowerCase();
         const safeEmail = form.email.toLowerCase();
         const nicknameError = validateNickname(safeNickname);
+
         setNewErrors(prev => ({ ...prev, nickname: nicknameError }));
         if (nicknameError || !safeNickname) return;
         try {
+            setLoading(true);
             const dataNick = await verifyUsernickValid(safeNickname);
             const dataMail = await verifyEmailValid(safeEmail);
             if (dataNick.valid && dataMail.valid) {
-                setLoading(true);
                 navigation.navigate('ChoosePicture', {
                     name: form.name,
                     nickname: safeNickname,

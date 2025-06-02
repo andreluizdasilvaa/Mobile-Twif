@@ -20,5 +20,6 @@ export const markNotification = async (notifyId) => {
 
 export const userByNick = async (userNick) => {
     const { data } = await api.get(`${appConfig.URL_API}/user/perfil/${userNick}`)
+    console.log(data)
     return data;
 }

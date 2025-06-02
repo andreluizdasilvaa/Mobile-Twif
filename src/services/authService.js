@@ -26,6 +26,18 @@ export async function loginRequest(email, senha) {
     }
 }
 
+export async function register(email, senha, usernick, nome, profilePicture, nascimento, curso) {
+    try {
+        const { data } = await api.post('/auth/register', {
+            email, senha, usernick, nome, profilePicture, nascimento, curso
+        })
+        
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export async function verifySession() {
     try {
         const token = await getItem(appConfig.TOKEN_KEY); // Use getItem ao invés de deleteItem
