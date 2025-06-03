@@ -5,6 +5,12 @@ export const useUserStore = create(set => ({
     name: '',
     isAdmin: false,
     profilePicture: '',
+    darkMode: false,
+
+    toggleDarkMode: () => {
+        const current = get().darkMode;
+        set({ darkMode: !current });
+    },
 
     // Adicionar ação para atualizar os dados do usuário
     setUserData: userData =>
