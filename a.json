@@ -1,0 +1,43 @@
+{
+    "bio": null,
+    "course": "ADS",
+    "isCurrentUser": true,
+    "isadmin": true,
+    "my_user_admin": true,
+    "nascimento": "2007-11-20",
+    "nome": "André",
+    "posts": [
+        {
+            "comments": [Array
+            ],
+            "content": "Teste",
+            "createdAt": "2025-05-31T19:22:57.676Z",
+            "id": 105,
+            "likedByCurrentUser": true,
+            "likes": [Array
+            ]
+        },
+        {
+            "comments": [Array
+            ],
+            "content": "Oieeeeeee gente ",
+            "createdAt": "2025-05-31T19:24:57.624Z",
+            "id": 106,
+            "likedByCurrentUser": true,
+            "likes": [Array
+            ]
+        },
+        {
+            "comments": [Array
+            ],
+            "content": "Gsusguagsusgsusyzusvsjbxjxgd cuidado",
+            "createdAt": "2025-06-03T12: 38: 01.450Z",
+            "id": 128,
+            "likedByCurrentUser": true,
+            "likes": [Array
+            ]
+        }
+    ],
+    "profilePicture": "profile14.png",
+    "usernick": "andre_123"
+}

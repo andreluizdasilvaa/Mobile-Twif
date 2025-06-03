@@ -104,6 +104,7 @@ export default function Feed({ navigation }) {
                                     likedByCurrentUser={item.likedByCurrentUser}
                                     navigation={navigation}
                                     onPostDelete={handlePostDelete}
+                                    profilePicture={item.user.profilePicture}
                                 />
                             )
                         }

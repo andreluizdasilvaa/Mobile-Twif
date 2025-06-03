@@ -16,7 +16,7 @@ import DefaultModal from '../DefaultModal';
 import { deleteItem } from '../../services/storageService';
 
 export default function ContentDrawerBurguer({ navigation, closeDrawer }) {
-    const { userNick, name, isAdmin, clearUserData } = useUserStore();
+    const { userNick, name, isAdmin, clearUserData, profilePicture } = useUserStore();
     const [isLogginOut, setIsLogginOut] = useState(false);
     const [showModal, setShowModal] = useState(false);
     
@@ -46,7 +46,7 @@ export default function ContentDrawerBurguer({ navigation, closeDrawer }) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Image source={`${appConfig.URL_API}/image/${userNick}`} style={styles.image} />
+                <Image source={`${appConfig.URL_API}/image/default/${profilePicture}`} style={styles.image} />
                 <View>
                     <Text style={styles.userName}>{name}</Text>
                     <Text style={styles.userNick}>@{userNick}</Text>

@@ -10,7 +10,7 @@ import appConfig from '../../config/appConfig';
 import styles from './styles';
 
 const ContentFormPost = forwardRef((props, inputRef) => {
-    const { userNick, name } = useUserStore();
+    const { profilePicture } = useUserStore();
     const [loading, setLoading] = useState(false);
     const [text, setText] = useState('');
 
@@ -105,7 +105,7 @@ const ContentFormPost = forwardRef((props, inputRef) => {
         <View style={[styles.container, isComment ? { marginTop: 12 } : null]}>
             <View style={styles.header}>
                 <View style={styles.infoPostUser}>
-                    <Image source={`${appConfig.URL_API}/image/${userNick}`} style={styles.image} />
+                    <Image source={{ uri: `${appConfig.URL_API}/image/default/${profilePicture}`}} style={styles.image} />
                     <Text>{text.length}/190</Text>
                 </View>
                 <TouchableOpacity 

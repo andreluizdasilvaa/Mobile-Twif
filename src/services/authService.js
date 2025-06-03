@@ -18,6 +18,7 @@ export async function loginRequest(email, senha) {
             userNick: data.user.usernick,
             name: data.user.nome,
             isAdmin: data.isAdmin,
+            profilePicture: data.user.profilePicture,
         });
 
         return data;
@@ -29,9 +30,15 @@ export async function loginRequest(email, senha) {
 export async function register(email, senha, usernick, nome, profilePicture, nascimento, curso) {
     try {
         const { data } = await api.post('/auth/register', {
-            email, senha, usernick, nome, profilePicture, nascimento, curso
-        })
-        
+            email,
+            senha,
+            usernick,
+            nome,
+            profilePicture,
+            nascimento,
+            curso,
+        });
+
         return data;
     } catch (error) {
         throw error;
@@ -68,8 +75,8 @@ export async function verifySession() {
 export async function verifyUsernickValid(nickName) {
     try {
         const { data } = await api.post('/auth/validate-usernick', {
-            usernick: nickName
-        })
+            usernick: nickName,
+        });
         return data;
     } catch (error) {
         throw error;
@@ -79,8 +86,8 @@ export async function verifyUsernickValid(nickName) {
 export async function verifyEmailValid(email) {
     try {
         const { data } = await api.post('/auth/validate-email', {
-            email: email
-        })
+            email: email,
+        });
         return data;
     } catch (error) {
         throw error;

@@ -9,7 +9,7 @@ import styles from './styles';
 import appConfig from '../../config/appConfig';
 
 function HeaderFeed({ navigation, openDrawer, onLogoPress }) {
-    const { userNick } = useUserStore();
+    const { profilePicture, userNick } = useUserStore();
 
     return (
         <View style={styles.container}>
@@ -27,7 +27,7 @@ function HeaderFeed({ navigation, openDrawer, onLogoPress }) {
                         })
                     }
                 >
-                    <Image source={`${appConfig.URL_API}/image/${userNick}`} style={styles.image} />
+                    <Image source={`${appConfig.URL_API}/image/default/${profilePicture}`} style={styles.image} />
                 </Pressable>
             </View>
         </View>

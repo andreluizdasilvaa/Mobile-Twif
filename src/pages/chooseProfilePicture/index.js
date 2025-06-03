@@ -30,9 +30,7 @@ export default function ChooseProfilePicture() {
             birthDate, 
             course,
             isChangePicture = false,
-            userNickByProfile
         } = route.params;
-
     useEffect(() => {
         const loadImages = async () => {
             try {
@@ -45,8 +43,6 @@ export default function ChooseProfilePicture() {
                 setLoading(false);
             }
         };
-
-        console.log(nickname, isChangePicture)
         loadImages();
     }, []);
 
@@ -102,7 +98,6 @@ export default function ChooseProfilePicture() {
             });
             navigation.goBack();
         } catch (error) {
-            console.log(error);
             Toast.show({
                 type: 'error',
                 text1: 'Erro ao criar atualizar cadastro',

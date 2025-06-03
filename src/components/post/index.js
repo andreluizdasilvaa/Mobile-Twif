@@ -27,6 +27,7 @@ function PostComponent({
     quantLike,
     quantComment,
     likedByCurrentUser,
+    profilePicture,
     isUserProfile = false,
     onPostDelete, // prop para notificar o componente pai sobre a deleção
     isComment = false,
@@ -57,7 +58,6 @@ function PostComponent({
             setLiked(willBeLiked);
             setQuantLikes(newQuantLikes);
         } catch (error) {
-            console.log('Erro ao curtir post:', error);
             Toast.show({
                 type: 'error',
                 text1: 'Erro ao curtir',
@@ -99,7 +99,6 @@ function PostComponent({
                 }
             }
         } catch (error) {
-            console.log(error);
             Toast.show({
                 type: 'error',
                 text1: 'Erro ao deletar',
@@ -123,7 +122,7 @@ function PostComponent({
                 }
             >
                 <Image
-                    source={{ uri: `${appConfig.URL_API}/image/${userNick}` }}
+                    source={{ uri: `${appConfig.URL_API}/image/default/${profilePicture}` }}
                     style={styles.imageUser}
                     contentFit="cover"
                     transition={100}
@@ -190,6 +189,7 @@ function PostComponent({
                                     nameUser,
                                     description,
                                     postId,
+                                    profilePicture,
                                 })
                             }
                         >

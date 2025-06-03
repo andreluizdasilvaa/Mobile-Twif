@@ -10,7 +10,7 @@ import colors from '../../constants/colors';
 
 // Importações de serviços e stores
 import { userByNick } from '../../services/userService';
-import { useUserStore } from '../../stores/userStore'
+import { useUserStore } from '../../stores/userStore';
 import Post from '../../components/post';
 import ScreenLoader from '../../components/ScreenLoader';
 import appConfig from '../../config/appConfig';
@@ -88,10 +88,12 @@ export default function Perfil() {
                         {userNick === nickNameA ? (
                             <Pressable
                                 style={styles.containerInputProfile}
-                                onPress={() => navigation.navigate('ChoosePicture', {
-                                    isChangePicture: true,
-                                    nickname: userNick,
-                                })}
+                                onPress={() =>
+                                    navigation.navigate('ChoosePicture', {
+                                        isChangePicture: true,
+                                        nickname: userNick,
+                                    })
+                                }
                             >
                                 <MaterialIcons name="draw" size={20} color="black" />
                             </Pressable>
@@ -137,6 +139,7 @@ export default function Perfil() {
                                 isUserProfile={true}
                                 onPostDelete={handlePostDelete}
                                 navigation={navigationRef.current}
+                                profilePicture={infoUser.profilePicture}
                             />
                         ))
                     ) : (

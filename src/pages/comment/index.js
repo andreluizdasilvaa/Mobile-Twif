@@ -22,12 +22,12 @@ import ContentFormPost from '../../components/contentFormPost';
 
 export default function Comment({ navigation }) {
     const route = useRoute();
-    const { userNick, postId, nameUser, description } = route.params;
+    const { userNick, postId, nameUser, description, profilePicture } = route.params;
     const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
     const [hasInteractionPost, setHasInteractionPost] = useState(false);
-    
+
     const flatListRef = useRef(null); // Função para remover um comentário da lista quando ele é deletado
     const handleCommentDelete = commentId => {
         setComments(prevComments => prevComments.filter(comment => comment.id !== commentId));
@@ -72,7 +72,11 @@ export default function Comment({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <HeaderComment hasInteraction={hasInteractionPost} navigation={navigation} onLogoPress={scrollToTop} />
+            <HeaderComment
+                hasInteraction={hasInteractionPost}
+                navigation={navigation}
+                onLogoPress={scrollToTop}
+            />
             <FlatList
                 ref={flatListRef}
                 style={styles.containerComments}
@@ -92,6 +96,7 @@ export default function Comment({ navigation }) {
                             navigation={navigation}
                             isComment={true}
                             onPostDelete={handleCommentDelete}
+                            profilePicture={item.user.profilePicture}
                         />
                     ) : null
                 }
@@ -109,6 +114,7 @@ export default function Comment({ navigation }) {
                             navigation={navigation}
                             isComment={true}
                             isMainPost={true}
+                            profilePicture={profilePicture}
                         />
                         <View style={styles.ContainerTextComment}>
                             <Text style={styles.textComment}>Comentarios:</Text>
