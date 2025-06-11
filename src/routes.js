@@ -1,6 +1,6 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from './pages/login';
+import Login from './pages/Login';
 import Register from './pages/register';
 import Perfil from './pages/perfil';
 import Comment from './pages/comment';
