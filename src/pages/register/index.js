@@ -171,7 +171,7 @@ export default function Register({ navigation }) {
                     <InputTextIcon
                         iconName={'lock-closed-outline'}
                         placeholder={'********'}
-                        keyboardType={'visible-password'}
+                        keyboardType={'default'}
                         maxLength={50}
                         minLength={8}
                         secureTextEntry={true}

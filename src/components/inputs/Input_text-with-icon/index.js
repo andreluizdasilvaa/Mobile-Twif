@@ -12,12 +12,11 @@ export default function InputTextIcon({ iconName, placeholder, keyboardType, max
                 style={styles.input}
                 placeholder={placeholder}
                 keyboardType={keyboardType}
+                secureTextEntry={secureTextEntry}
                 maxLength={maxLength}
                 minLength={8}
                 onChangeText={onChangeText}
-                secureTextEntry={secureTextEntry}
             />
         </View>
     );
 }
-
