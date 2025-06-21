@@ -111,6 +111,13 @@ function PostComponent({
     function handleModal() {
         setShowModal(true);
     }
+
+    // Função para truncar o nome do usuário
+    function getTruncatedName(name) {
+        if (!name) return '';
+        return name.length > 15 ? name.slice(0, 15) + '...' : name;
+    }
+
     return (
         <View style={[styles.container, style]}>
             <Pressable
@@ -128,12 +135,8 @@ function PostComponent({
                     transition={100}
                 />
                 <View>
-                    <Text numberOfLines={1} ellipsizeMode="tail" style={styles.nameUser}>
-                        {nameUser}
-                    </Text>
-                    <Text numberOfLines={1} ellipsizeMode="tail" style={styles.userNick}>
-                        @{userNick}
-                    </Text>
+                    <Text style={styles.nameUser}>{getTruncatedName(nameUser)}</Text>
+                    <Text style={styles.userNick}>@{userNick}</Text>
                 </View>
             </Pressable>
             <View style={styles.content}>

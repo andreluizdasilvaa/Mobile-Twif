@@ -36,7 +36,7 @@ export default function ChooseProfilePicture() {
             try {
                 const data = await getAllImages();
                 setImages(data.images);
-                setSelectedImage(data.images[0]);  
+                setSelectedImage(data.images[6]);
             } catch (error) {
                 console.log('Erro: ', error);
             } finally {

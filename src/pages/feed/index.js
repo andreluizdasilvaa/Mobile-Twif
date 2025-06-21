@@ -88,6 +88,7 @@ export default function Feed({ navigation }) {
                     <HeaderFeed navigation={navigation} onLogoPress={scrollToTop} />
                     <FlatList
                         ref={flatListRef}
+                        showsVerticalScrollIndicator={false}
                         style={styles.containerPosts}
                         data={loading ? [1, 2, 3, 4] : feedPosts}
                         renderItem={({ item }) =>

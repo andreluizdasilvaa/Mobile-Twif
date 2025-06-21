@@ -36,4 +36,11 @@ export const useUserStore = create(set => ({
             isAdmin: false,
             profilePicture: '',
         }),
+
+    // atualiza nome do usuario
+    updateNameUser: nameUser => {
+        set({
+            name: nameUser
+        })
+    }
 }));

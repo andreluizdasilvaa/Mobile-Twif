@@ -3,9 +3,7 @@ import { View, Text, TouchableOpacity, Modal } from 'react-native';
 import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import Entypo from '@expo/vector-icons/Entypo';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { FontAwesome5, MaterialIcons, Ionicons } from '@expo/vector-icons';
 
 import appConfig from '../../config/appConfig';
 import { useUserStore } from '../../stores/userStore';
@@ -16,7 +14,8 @@ import DefaultModal from '../DefaultModal';
 import { deleteItem } from '../../services/storageService';
 
 export default function ContentDrawerBurguer({ navigation, closeDrawer }) {
-    const { userNick, name, isAdmin, clearUserData, profilePicture } = useUserStore();
+    const { userNick, isAdmin, clearUserData, profilePicture } = useUserStore();
+    const name = useUserStore(state => state.name);
     const [isLogginOut, setIsLogginOut] = useState(false);
     const [showModal, setShowModal] = useState(false);
     
@@ -43,12 +42,18 @@ export default function ContentDrawerBurguer({ navigation, closeDrawer }) {
         setShowModal(true);
     };
 
+    // Função para truncar o nome do usuário
+    function getTruncatedName(name) {
+        if (!name) return '';
+        return name.length > 5 ? name.slice(0, 6) + '...' : name;
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <Image source={`${appConfig.URL_API}/image/default/${profilePicture}`} style={styles.image} />
                 <View>
-                    <Text style={styles.userName}>{name}</Text>
+                    <Text style={styles.userName}>{getTruncatedName(name)}</Text>
                     <Text style={styles.userNick}>@{userNick}</Text>
                 </View>
             </View>
@@ -66,9 +71,9 @@ export default function ContentDrawerBurguer({ navigation, closeDrawer }) {
                         <Text style={styles.textButton}>RELATÓRIOS</Text>
                     </TouchableOpacity>
                 )}
-                <TouchableOpacity style={styles.buttonContainer}>
-                    <Entypo name="light-bulb" size={30} color="black" />
-                    <Text style={styles.textButton}>ATIVAR MODO ESCURO</Text>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('ChangeInfoUser')}>
+                    <FontAwesome5 name="user-edit" size={24} color="black" />
+                    <Text style={styles.textButton}>EDITAR PERFIL</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.buttonContainer}

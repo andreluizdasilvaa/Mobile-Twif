@@ -1,12 +1,13 @@
 import React, { useEffect, useCallback } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from './pages/Login';
+import Login from './pages/login';
 import Register from './pages/register';
 import Perfil from './pages/perfil';
 import Comment from './pages/comment';
 import Relatorio from './pages/relatorio';
 import Tabs from './components/Tabs';
 import AuthLoading from './pages/authLoading';
+import ChangeInfoUser from './pages/changeInfoUser';
 import ChooseProfilePicture from './pages/chooseProfilePicture';
 import { notifications } from './services/userService';
 import { useNotifyStore } from './stores/NotifyStore';
@@ -74,6 +75,11 @@ export default function Routes() {
                 <Stack.Screen 
                     name='Comment'
                     component={Comment}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen 
+                    name='ChangeInfoUser'
+                    component={ChangeInfoUser}
                     options={{ headerShown: false }}
                 />
             </Stack.Navigator>

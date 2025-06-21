@@ -37,6 +37,7 @@ export default function InputDatePicker({ iconName, placeholder, value, onChange
                     onChange={handleChange}
                     themeVariant="light"
                     textColor={colors.blackColor}
+                    maximumDate={new Date()} // Impede datas futuras
                 />
             )}
         </View>

@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     nameUser: {
         fontWeight: '500', // 'medium' não é aceito direto, melhor usar numérico
         fontSize: 16,
+        
       },
       userNick: {
         fontSize: 12,

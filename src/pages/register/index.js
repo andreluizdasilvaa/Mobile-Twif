@@ -53,7 +53,7 @@ export default function Register({ navigation }) {
         setForm(prev => ({ ...prev, [field]: value }));
         if (newErrors[field]) {
             setNewErrors(prev => ({ ...prev, [field]: '' }));
-        }
+        };
     };
 
     // Modal
