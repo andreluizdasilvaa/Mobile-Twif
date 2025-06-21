@@ -174,6 +174,7 @@ export default function Register({ navigation }) {
                         keyboardType={'visible-password'}
                         maxLength={50}
                         minLength={8}
+                        secureTextEntry={true}
                         value={form.password}
                         onChangeText={text => handleChange('password', text)}
                     />

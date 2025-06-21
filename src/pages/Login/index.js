@@ -4,7 +4,7 @@ import { Text, View, Pressable, ActivityIndicator } from 'react-native';
 import Toast from 'react-native-toast-message';
 import styles from './styles';
 import { loginRequest } from '../../services/authService';
-import { validateEmail, validatePassword } from '../../utils/validation'
+import { validateEmail, validatePassword } from '../../utils/validation';
 
 import InputText from '../../components/inputs/Input_text';
 import Logo from '../../components/Logo';
@@ -48,7 +48,7 @@ export default function Login({ navigation }) {
 
         try {
             await loginRequest(email, password);
-            
+
             Toast.show({
                 type: 'success',
                 text1: 'Login feito com sucesso!',
@@ -58,7 +58,7 @@ export default function Login({ navigation }) {
 
             navigation.replace('Home');
         } catch (error) {
-            if(error.status === 401) {
+            if (error.status === 401) {
                 Toast.show({
                     type: 'error',
                     text1: 'Credenciais Invalidas!',
@@ -111,6 +111,7 @@ export default function Login({ navigation }) {
                         keyboardType="default"
                         maxLength={50}
                         value={password}
+                        secureTextEntry={true}
                         onChangeText={text => {
                             setPassword(text);
                             // Limpa o erro quando o usuário começa a digitar
@@ -131,10 +132,10 @@ export default function Login({ navigation }) {
                         </Text>
                     </StandardButton>
 
-                    <Text style={[styles.forgotPassword, { textAlign: 'center'}]}>
+                    <Text style={[styles.forgotPassword, { textAlign: 'center' }]}>
                         Ainda não possui uma conta?
-                        <Text 
-                            onPress={() => navigation.replace('Register')} 
+                        <Text
+                            onPress={() => navigation.replace('Register')}
                             style={styles.linkHook}
                         >
                             Cadastre-se!
