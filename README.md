@@ -324,4 +324,4 @@ yarn android
 
 ---
 
-Projeto desenvolvido pelos alunos do curso de Informática para Internet do IFSP Campus Caraguatatuba como parte do Projeto Integrador.
+**Autor do projeto:** André Luiz.
