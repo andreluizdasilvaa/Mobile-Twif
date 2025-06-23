@@ -49,6 +49,8 @@ function Notification({ item }) {
                 return 'curtiu sua publicação';
             case 'postDeleteByAdm':
                 return 'sua publicação foi excluída por um administrador';
+            case 'report_viewed':
+                return 'Seu Report foi visualizado!';
             default:
                 return 'interagiu com você';
         }
